@@ -9,7 +9,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
 	id 'jacoco'
-	id 'org.openfx.javafxplugin' version '0.1.0'
+	id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 jar {

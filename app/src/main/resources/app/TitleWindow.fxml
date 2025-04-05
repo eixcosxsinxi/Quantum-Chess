@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<VBox fx:controller="app.TitleWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@TitleWindow.css" alignment="CENTER" spacing="10" prefHeight="200" prefWidth="300">
+
+    <Label text="Quantum Chess" styleClass="largeFont" />
+    <!--<ImageView fitWidth="550.0" fitHeight="350.0">-->
+        <!--<image>-->
+            <!--<Image url="@Battleship.png" />-->
+        <!--</image>-->
+    <!--</ImageView>-->
+
+    <Label text="Cheat Mode" />
+    <CheckBox fx:id="cheatMode" selected="true" />
+    <Label text="Difficulty Level:" />
+    <Slider fx:id="difficultySlider" min="5" max="8" showTickLabels="true" showTickMarks="true" majorTickUnit="1" minorTickCount="0" blockIncrement="1" snapToTicks="true" />
+    <Button fx:id="startButton" onAction="#onStartClicked" text="Start" />
+
+</VBox>

@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GUIApplication extends Application{
+    // This loads the TitleWindow controller with TitleWindow.fxml and creates an initial title window
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -21,5 +22,4 @@ public class GUIApplication extends Application{
         TitleWindow titleWindow = titleLoader.getController();
         titleWindow.initialize(stage);
     }
-
 }

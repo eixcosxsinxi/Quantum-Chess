@@ -15,6 +15,7 @@ public class MainWindow {
     Stage titleStage;
     Stage gameStage;
 
+    // initialize the main window and close the title window
     public void initialize(Stage titleStage, Stage gameStage, boolean cheat, int difficulty) {
         this.titleStage = titleStage;
         titleStage.hide();

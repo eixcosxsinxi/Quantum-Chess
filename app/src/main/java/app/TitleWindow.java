@@ -9,8 +9,9 @@ import javafx.stage.Stage;
 
 
 public class TitleWindow {
+    // Here is the controller for TitleWindow.
 
-    private Stage titleStage;
+    private Stage titleStage; // This is so that MainWindow can hide this screen
 
     @FXML CheckBox cheatMode;
 
@@ -24,6 +25,7 @@ public class TitleWindow {
 
     @FXML
     void onStartClicked(ActionEvent event) throws Exception {
+        // on start clicked, load the main window
         var mainResource = getClass().getResource("MainWindow.fxml");
         var mainLoader = new FXMLLoader(mainResource);
         var mainScene = new Scene(mainLoader.load());

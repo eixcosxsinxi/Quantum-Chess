@@ -1,0 +1,1 @@
+put all assets in the assets directory

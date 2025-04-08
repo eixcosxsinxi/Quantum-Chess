@@ -1,4 +1,4 @@
-package app;
+package app.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +26,7 @@ public class TitleWindow {
     @FXML
     void onStartClicked(ActionEvent event) throws Exception {
         // on start clicked, load the main window
-        var mainResource = getClass().getResource("MainWindow.fxml");
+        var mainResource = getClass().getResource("/app/MainWindow.fxml");
         var mainLoader = new FXMLLoader(mainResource);
         var mainScene = new Scene(mainLoader.load());
 

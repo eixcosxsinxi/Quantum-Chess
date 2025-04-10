@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox  xmlns:fx="http://javafx.com/fxml" stylesheets="@TitleWindow.css" alignment="CENTER" spacing="10" prefHeight="200" prefWidth="300">
+    <Label text="This is Quantum Chess" styleClass="helpScreen" />
+</VBox>

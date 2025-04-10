@@ -8,4 +8,6 @@
 	/* -fx-font-size: 12pt; default */
 }
 .helpScreen {
+    -fx-background-color: #007FFF;
+    -fx-text-fill: #DAA520;
 }

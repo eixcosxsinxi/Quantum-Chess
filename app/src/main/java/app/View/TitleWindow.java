@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 
 public class TitleWindow {
     // Here is the controller for TitleWindow.
@@ -24,12 +26,20 @@ public class TitleWindow {
     }
 
     @FXML
-    void onHelpClicked(ActionEvent event) {
-        displayAlert("The game Quantum Chess starts with the classical game of chess.");
+    void onHelpClicked(ActionEvent event) throws IOException {
+        var helpResource = getClass().getResource("/app/HelpWindow.fxml");
+        var helpLoader = new FXMLLoader(helpResource);
+        var helpScene = new Scene(helpLoader.load());
+
+        var helpStage = new Stage();
+
+        helpStage.setScene(helpScene);
+        helpStage.setTitle("Help");
+        helpStage.show();
     }
 
     @FXML
-    void onStartClicked(ActionEvent event) throws Exception {
+    void onStartClicked(ActionEvent event) throws IOException {
         // on start clicked, load the main window
         var mainResource = getClass().getResource("/app/MainWindow.fxml");
         var mainLoader = new FXMLLoader(mainResource);
@@ -49,6 +59,7 @@ public class TitleWindow {
 
     private void displayAlert(String text) {
         var alert = new Alert(Alert.AlertType.INFORMATION, text);
-        alert.getDialogPane().getStyleClass().add("helpScreen");
+        //alert.getDialogPane().getStyleClass().add("helpScreen");
+        alert.show();
     }
 }

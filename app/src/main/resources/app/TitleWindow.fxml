@@ -12,6 +12,11 @@
             <Image url="@Quantum_Chess_Title_Screen.png" />
         </image>
     </ImageView>
+    <!--<ImageView fitWidth="550.0" fitHeight="350.0">-->
+        <!--<image>-->
+            <!--<Image url="Quantum_Chess_Title_Screen.png" />-->
+        <!--</image>-->
+    <!--</ImageView>-->
 
     <Button onAction="#onHelpClicked" text="Help Screen" />
     <Label text="Cheat Mode" />

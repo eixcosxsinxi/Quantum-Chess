@@ -1,16 +1,9 @@
 package app.view;
 
-import app.*;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import app.Observer;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 
 public class MainWindow implements Observer{
     Stage titleStage;
@@ -21,6 +14,12 @@ public class MainWindow implements Observer{
         this.titleStage = titleStage;
         titleStage.hide();
         this.gameStage = gameStage;
+
+        // media plays here
+        var mediaPlayer = new MediaPlayer(new Media(getClass().getResource("/assets/backgroundmusic.mp3").toString()));
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.setVolume(0.5);
+        mediaPlayer.play(); 
     }
 
 

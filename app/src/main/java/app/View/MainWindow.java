@@ -1,5 +1,6 @@
 package app.view;
 
+import app.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
-public class MainWindow {
+public class MainWindow implements Observer{
     Stage titleStage;
     Stage gameStage;
 
@@ -21,4 +22,6 @@ public class MainWindow {
         titleStage.hide();
         this.gameStage = gameStage;
     }
+
+
 }

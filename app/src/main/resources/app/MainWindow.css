@@ -7,3 +7,6 @@
 	-fx-font-size: 20pt;
 	/* -fx-font-size: 12pt; default */
 }
+.current {
+    -fx-effect: dropshadow(three-pass-box, rgba(50,135,255,0.8), 4, 0.65, 0, 0);
+ }

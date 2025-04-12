@@ -1,30 +1,80 @@
 package app.model;
 
+import app.*;
 import app.vals.*;
 
 public class Chess {
 
     private Board board;
-    private Turn turn = Turn.WHITE;
+    private Player turn = Player.WHITE;
+    private Player winner = Player.NONE;
+    private Observer observer;
 
     public Chess() {
         // A chess is made up of a Board which contains the Pieces
         setBoard(new Board(8, 8));
     }
 
+    /* Main Play method and various helper methods */
+    public void play() {
+        observer.play();
+    }
+
+    public void tryTurn(Coordinate coord) {
+
+        var currentCell = getBoard().getCell(coord);
+        var piece = currentCell.getPiece();
+        var currentCellObserver = currentCell.getCellObserver();
+        currentCellObserver.selectPiece();
+
+        // Look for a win, if no win, observe to update view.
+        setWinner(tryWin());
+
+        if (getWinner() == Player.BLACK)
+            observer.win(Player.BLACK);
+        else if (getWinner() == Player.WHITE)
+            observer.win(Player.WHITE);
+        else {
+            currentCellObserver.deselectPiece();
+        }
+    }
+
+    public void changeTurn() {
+        if (turn == Player.WHITE)
+            setTurn(Player.BLACK);
+        else
+            setTurn(Player.WHITE);
+    }
+
+    public Player tryWin() {
+        return Player.NONE;
+    }
+
     /* Getters */
     public Board getBoard() {
         return this.board;
     }
-    public Turn getTurn() {
+    public Player getTurn() {
         return this.turn;
+    }
+    public Observer getObserver() {
+        return this.observer;
+    }
+    public Player getWinner() {
+        return this.winner;
     }
 
     /* Setters */
     public void setBoard(Board board) {
         this.board = board;
     }
-    public void setTurn(Turn turn) {
+    public void setTurn(Player turn) {
         this.turn = turn;
+    }
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+    }
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 }

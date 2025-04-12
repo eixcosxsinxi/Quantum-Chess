@@ -7,7 +7,7 @@
 <VBox fx:controller="app.view.TitleWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@TitleWindow.css" alignment="CENTER" spacing="10" prefHeight="200" prefWidth="300">
 
     <Label text="Quantum Chess" styleClass="largeFont" />
-    <ImageView fitWidth="350.0" fitHeight="350.0">
+    <ImageView fitWidth="450.0" fitHeight="450.0">
         <image>
             <Image url="@Quantum_Chess_Title_Screen.png" />
         </image>

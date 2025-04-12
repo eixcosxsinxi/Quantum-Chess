@@ -1,4 +1,4 @@
-package app;
+package app.vals;
 
 public enum Piece {
     PAWN,

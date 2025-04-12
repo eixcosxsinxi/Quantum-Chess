@@ -4,6 +4,8 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:controller="app.view.MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" alignment="CENTER" spacing="10" prefHeight="200" prefWidth="300">
+
     <Label text="This is Quantum Chess" styleClass="largeFont" />
+    <GridPane fx:id="chessBoard" />
 
 </VBox>

@@ -20,12 +20,37 @@ public class Chess {
         observer.play();
     }
 
+    public void selectSquares(Cell currentCell) {
+        var piece = currentCell.getPiece();
+        var boardState = getBoard();
+        var coord = currentCell.getCoord();
+
+        var coordRow = coord.getRow();
+        var coordCol = coord.getCol();
+        var boardRows = boardState.getRows();
+        var coordCols = boardState.getCols();
+        switch (piece) {
+            case KING -> {}
+            case QUEEN -> {}
+            case ROOK -> {}
+            case BISHOP -> {}
+            case KNIGHT -> {}
+            case PAWN -> {
+                if (coordRow < boardRows && coordRow > 0)
+                    boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
+            }
+            case NONE -> {}
+            default -> {}
+        }
+    }
+
     public void tryTurn(Coordinate coord) {
 
         var currentCell = getBoard().getCell(coord);
-        var piece = currentCell.getPiece();
         var currentCellObserver = currentCell.getCellObserver();
         currentCellObserver.selectPiece();
+
+        selectSquares(currentCell);
 
         // Look for a win, if no win, observe to update view.
         setWinner(tryWin());

@@ -15,7 +15,7 @@ public class Board {
         grid = new Cell[rows][cols];
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                grid[row][col] = new Cell();
+                grid[row][col] = new Cell(new Coordinate(row, col));
             }
         }
     }
@@ -56,25 +56,26 @@ public class Board {
     public void setAllPawns() {
         for (int row = 0; row < getRows(); row++) {
             for (int col = 0; col < getCols(); col++) {
-                var cellObserver = grid[row][col].getCellObserver();
-                cellObserver.setPiece(Piece.PAWN);
+                var cell = grid[row][col];
+                cell.setPiece(Piece.PAWN);
             }
         }
     }
     public void setColors() {
         for (int row = 0; row < getRows(); row++) {
             for (int col = 0; col < getCols(); col++) {
-                var cellObserver = grid[row][col].getCellObserver();
+                var cell = grid[row][col]; // this variable is used to update each cell
+
                 if (row % 2 == 0) {
                     if (col % 2 == 0)
-                        cellObserver.setColor(Color.BLACK);
+                        cell.setColor(Color.BLACK);
                     else
-                        cellObserver.setColor(Color.WHITE);
+                        cell.setColor(Color.WHITE);
                 } else {
                     if (col % 2 == 1)
-                        cellObserver.setColor(Color.BLACK);
+                        cell.setColor(Color.BLACK);
                     else
-                        cellObserver.setColor(Color.WHITE);
+                        cell.setColor(Color.WHITE);
                 }
             }
         }

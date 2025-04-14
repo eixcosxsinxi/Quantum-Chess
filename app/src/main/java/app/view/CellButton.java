@@ -8,9 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 public class CellButton extends Button implements CellObserver {
+
+    Cell model;
+
     private StackPane stackPane; // To give multiple images to the button
 
     public CellButton() {
+        model = new Cell();
         setStackPane(new StackPane());
         setMinSize(30.0, 30.0);
         setMaxSize(30.0, 30.0);
@@ -61,11 +65,29 @@ public class CellButton extends Button implements CellObserver {
     @Override
     public void setColor(Color color) {
         // set the initial checkered colors
-        if (color == Color.WHITE) {
-            var imageView = new ImageView(new Image("/assets/WhiteSquare.png"));
-            getStackPane().getChildren().addFirst(imageView);
-        } else {
-            getStackPane().getChildren().addFirst(new ImageView(new Image("/assets/BlackSquare.png")));
+        var images = getStackPane().getChildren();
+        switch (color) {
+            case WHITE -> {
+                var imageView = new ImageView(new Image("/assets/WhiteSquare.png"));
+                if (images.isEmpty())
+                    images.addFirst(imageView);
+                else
+                    images.set(0, imageView);
+            }
+            case BLUE -> {
+                var imageView = new ImageView(new Image("/assets/BlueSquare.png"));
+                if (images.isEmpty())
+                    images.addFirst(imageView);
+                else
+                    images.set(0, imageView);
+            }
+            case BLACK -> {
+                var imageView = new ImageView(new Image("/assets/BlackSquare.png"));
+                if (images.isEmpty())
+                    images.addFirst(imageView);
+                else
+                    images.set(0, imageView);
+            }
         }
     }
 }

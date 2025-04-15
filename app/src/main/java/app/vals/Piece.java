@@ -7,5 +7,16 @@ public enum Piece {
     ROOK,
     KING,
     QUEEN,
-    NONE
+    NONE;
+
+    private boolean firstMove = true; // for the pawns
+
+    public boolean getFirstMove() {
+        return this.firstMove;
+    }
+
+    public void setFirstMove(boolean firstMove) {
+        this.firstMove = firstMove;
+    }
+
 }

@@ -2,6 +2,7 @@ package app.model;
 
 import app.*;
 import app.vals.*;
+import org.checkerframework.checker.units.qual.C;
 
 public class Chess {
 
@@ -20,7 +21,7 @@ public class Chess {
         observer.play();
     }
 
-    public void selectSquares(Cell currentCell) {
+    public void selectSquares(Cell currentCell) { // TODO: write collision logic in all of these
         var piece = currentCell.getPiece();
         var boardState = getBoard();
         var coord = currentCell.getCoord();
@@ -28,16 +29,63 @@ public class Chess {
         var coordRow = coord.getRow();
         var coordCol = coord.getCol();
         var boardRows = boardState.getRows();
-        var coordCols = boardState.getCols();
-        switch (piece) {
-            case KING -> {}
-            case QUEEN -> {}
-            case ROOK -> {}
-            case BISHOP -> {}
-            case KNIGHT -> {}
+        var boardCols = boardState.getCols();
+        switch (piece) { // highlight squares according to each type of piece
+            case KING -> {
+                // TODO: write logic for where the king can move to
+            }
+            case QUEEN -> {
+                // TODO: write logic for where the queen can move to
+            }
+            case ROOK -> {
+                // TODO: write logic for where the rook can move to
+            }
+            case BISHOP -> {
+                int top = coordRow + 1;
+                int bottom = boardRows - coordRow;
+                int left = coordCol + 1;
+                int right = boardCols - coordCol;
+
+                if (right <= bottom) { // highlights the NW diagonal
+                    for (int i = 1; i < right; i++)
+                        boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
+                } else {
+                    for (int i = 1; i < bottom; i++)
+                        boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
+                }
+                if (left <= top) { // highlights the SE diagonal
+                    for (int i = 1; i < left; i++)
+                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
+                } else {
+                    for (int i = 1; i < top; i++)
+                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
+                }
+                if (right <= top) { // highlights the NE diagonal
+                    for (int i = 1; i < right; i++)
+                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
+                } else {
+                    for (int i = 1; i < top; i++)
+                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
+                }
+                if (left <= bottom) { // highlights the SW diagonal
+                    for (int i = 1; i < left; i++)
+                        boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
+                } else {
+                    for (int i = 1; i < bottom; i++)
+                        boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
+                }
+            }
+            case KNIGHT -> {
+                if (coordRow > 0 && coordCol > 1)
+                    boardState.getCell(coordRow - 1, coordCol - 2).setColor(Color.BLUE);
+                if (coordRow > 0 && coordCol < boardCols - 1)
+                    boardState.getCell(coordRow - 1, coordCol + 2).setColor(Color.BLUE);
+            }
             case PAWN -> {
                 if (coordRow < boardRows && coordRow > 0)
                     boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
+                if (piece.getFirstMove() && coordRow > 1)
+                    boardState.getCell(coordRow - 2, coordCol).setColor(Color.BLUE);
             }
             case NONE -> {}
             default -> {}
@@ -51,6 +99,8 @@ public class Chess {
         currentCellObserver.selectPiece();
 
         selectSquares(currentCell);
+
+        // TODO: write code to change the next button action to select a move and check if they can
 
         // Look for a win, if no win, observe to update view.
         setWinner(tryWin());

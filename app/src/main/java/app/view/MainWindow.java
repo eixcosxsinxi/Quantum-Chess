@@ -11,6 +11,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.*;
+import org.checkerframework.checker.units.qual.C;
 
 public class MainWindow implements Observer {
     Stage titleStage;
@@ -103,6 +104,8 @@ public class MainWindow implements Observer {
         board.setPiece(new Coordinate(6, 5), Piece.PAWN);
         board.setPiece(new Coordinate(1, 5), Piece.BISHOP);
         board.setPiece(new Coordinate(1, 1), Piece.ROOK);
+        board.setPiece(new Coordinate(7, 7), Piece.KING);
+        board.setPiece(new Coordinate(3, 3), Piece.QUEEN);
     }
 
     @Override

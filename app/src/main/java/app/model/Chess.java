@@ -75,11 +75,15 @@ public class Chess {
                         boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
                 }
             }
-            case KNIGHT -> {
-                if (coordRow > 0 && coordCol > 1)
+            case KNIGHT -> { // TODO: finish all states of knight
+                if (coordRow > 0 && coordCol > 1) // up 1 left 2
                     boardState.getCell(coordRow - 1, coordCol - 2).setColor(Color.BLUE);
-                if (coordRow > 0 && coordCol < boardCols - 1)
+                if (coordRow > 0 && coordCol < boardCols - 1) // up 1 right 2
                     boardState.getCell(coordRow - 1, coordCol + 2).setColor(Color.BLUE);
+                if (coordRow < boardRows - 2 && coordCol > 1) // down 1 left 2
+                    boardState.getCell(coordRow + 1, coordCol - 2).setColor(Color.BLUE);
+                if (coordRow < boardRows - 2 && coordCol < boardCols - 3)
+                    boardState.getCell(coordRow + 1, coordCol + 2).setColor(Color.BLUE);
             }
             case PAWN -> {
                 if (coordRow < boardRows && coordRow > 0)

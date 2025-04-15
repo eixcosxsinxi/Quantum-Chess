@@ -6,6 +6,8 @@ import org.checkerframework.checker.units.qual.C;
 
 public class Chess {
 
+    private static Chess model;
+
     private Board board;
     private Player turn = Player.WHITE;
     private Player winner = Player.NONE;
@@ -14,6 +16,12 @@ public class Chess {
     public Chess() {
         // A chess is made up of a Board which contains the Pieces
         setBoard(new Board(8, 8));
+    }
+
+    public static Chess getModelInstance() {
+        if (model == null)
+            model = new Chess();
+        return model;
     }
 
     /* Main Play method and various helper methods */
@@ -82,7 +90,7 @@ public class Chess {
                     boardState.getCell(coordRow - 1, coordCol + 2).setColor(Color.BLUE);
                 if (coordRow < boardRows - 2 && coordCol > 1) // down 1 left 2
                     boardState.getCell(coordRow + 1, coordCol - 2).setColor(Color.BLUE);
-                if (coordRow < boardRows - 2 && coordCol < boardCols - 3)
+                if (coordRow < boardRows - 2 && coordCol < boardCols - 3) // down 1 right 2
                     boardState.getCell(coordRow + 1, coordCol + 2).setColor(Color.BLUE);
             }
             case PAWN -> {
@@ -105,6 +113,7 @@ public class Chess {
         selectSquares(currentCell);
 
         // TODO: write code to change the next button action to select a move and check if they can
+        doMoveAction();
 
         // Look for a win, if no win, observe to update view.
         setWinner(tryWin());
@@ -114,8 +123,24 @@ public class Chess {
         else if (getWinner() == Player.WHITE)
             observer.win(Player.WHITE);
         else {
-            currentCellObserver.deselectPiece();
+            changeTurn();
+            // currentCellObserver.deselectPiece(); // TODO: put this after a move is finished and before the win is checked
         }
+    }
+
+    public void doMoveAction() { // set all onActions to look for another click to parse as a move
+        for (Cell[] cellArray : board.getGrid()) {
+            for (Cell cell : cellArray) {
+                cell.getCellObserver().setOnAction(e -> {
+                    var model = Chess.getModelInstance();
+                    model.parseMove(cell.getCoord());
+                });
+            }
+        }
+    }
+
+    public void parseMove(Coordinate coord) { // parse the move at the coordinate
+        board.getCell(coord).getCellObserver().deselectPiece(); // Just a test line to see if onAction worked
     }
 
     public void changeTurn() {

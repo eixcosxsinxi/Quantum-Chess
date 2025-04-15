@@ -44,9 +44,9 @@ public class CellButton extends Button implements CellObserver {
     @Override
     public void deselectPiece() {
         // unhighlight the piece
-        //var node = getStackPane().getChildren().get(1);
-        //if (node.getStyleClass().contains("current"))
-        //    node.getStyleClass().remove("current");
+        var node = getStackPane().getChildren().get(1);
+        if (node.getStyleClass().contains("current"))
+            node.getStyleClass().remove("current");
     }
     @Override
     public void setPiece(Piece piece) {

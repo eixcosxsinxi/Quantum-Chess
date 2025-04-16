@@ -83,7 +83,7 @@ public class Chess {
                         boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
                 }
             }
-            case KNIGHT -> { // TODO: finish all states of knight
+            case KNIGHT -> {
                 if (coordRow > 0 && coordCol > 1) // up 1 left 2
                     boardState.getCell(coordRow - 1, coordCol - 2).setColor(Color.BLUE);
                 if (coordRow > 0 && coordCol < boardCols - 1) // up 1 right 2
@@ -92,6 +92,14 @@ public class Chess {
                     boardState.getCell(coordRow + 1, coordCol - 2).setColor(Color.BLUE);
                 if (coordRow < boardRows - 2 && coordCol < boardCols - 3) // down 1 right 2
                     boardState.getCell(coordRow + 1, coordCol + 2).setColor(Color.BLUE);
+                if (coordRow < boardRows - 2 && coordCol > 0) // down 2 left 1
+                    boardState.getCell(coordRow + 2, coordCol - 1).setColor(Color.BLUE);
+                if (coordRow < boardRows - 2 && coordCol < boardCols - 1) // down 2 right 1
+                    boardState.getCell(coordRow + 2, coordCol + 1).setColor(Color.BLUE);
+                if (coordRow > 1 && coordCol > 0) // up 2 left 1
+                    boardState.getCell(coordRow - 2, coordCol - 1).setColor(Color.BLUE);
+                if (coordRow > 1 && coordCol < boardCols - 1) // up 2 right 1
+                    boardState.getCell(coordRow - 2, coordCol + 1).setColor(Color.BLUE);
             }
             case PAWN -> {
                 if (coordRow < boardRows && coordRow > 0)
@@ -116,7 +124,7 @@ public class Chess {
         doMoveAction();
 
         // Look for a win, if no win, observe to update view.
-        setWinner(tryWin());
+        setWinner(tryWin()); // TODO: maybe move win check to end of tryMove
 
         if (getWinner() == Player.BLACK)
             observer.win(Player.BLACK);

@@ -16,6 +16,12 @@ public class Cell {
         setPiece(Piece.NONE, Color.NONE);
     }
 
+    public void removePiece() {
+        this.piece = Piece.NONE;
+        this.color = Color.NONE;
+        getCellObserver().removePiece();
+    }
+
     /* Getters */
     public CellButton getCellObserver() {
         return this.cellObserver;

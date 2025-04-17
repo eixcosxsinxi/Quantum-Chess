@@ -97,4 +97,9 @@ public class CellButton extends Button implements CellObserver {
             }
         }
     }
+    @Override
+    public void removePiece() {
+        var images = getStackPane().getChildren();
+        images.remove(1);
+    }
 }

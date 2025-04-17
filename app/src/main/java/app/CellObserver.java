@@ -7,4 +7,5 @@ public interface CellObserver {
     void deselectPiece();
     void setPiece(Piece piece, Color color);
     void setColor(Color color);
+    void removePiece();
 }

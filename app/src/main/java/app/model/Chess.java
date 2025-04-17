@@ -149,8 +149,12 @@ public class Chess {
 
     // TODO: Write logic to parse a movement to the coord 'coord'
     public void parseMove(Cell currentCell, Cell movetoCell) { // parse the move at the coordinate
-        var coord = movetoCell.getCoord();
-        board.getCell(coord).getCellObserver().deselectPiece(); // Just a test line to see if onAction worked
+        var movetoCoord = movetoCell.getCoord();
+        var currentCoord = currentCell.getCoord();
+        board.getCell(movetoCoord).setPiece(board.getCell(currentCoord).getPiece(), board.getCell(currentCoord).getColor());
+        board.getCell(currentCoord).removePiece();
+        //board.getCell(currentCoord).getCellObserver().deselectPiece(); // Just a test line to see if onAction worked
+        board.getCell(movetoCoord).getCellObserver().selectPiece();
     }
 
     public void changeTurn() {

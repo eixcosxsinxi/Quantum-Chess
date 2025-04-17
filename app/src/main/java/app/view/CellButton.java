@@ -49,7 +49,7 @@ public class CellButton extends Button implements CellObserver {
             node.getStyleClass().remove("current");
     }
     @Override
-    public void setPiece(Piece piece) {
+    public void setPiece(Piece piece, Color color) {
         // set the piece
 
         // These five lines grab the name of the png file to grab
@@ -59,8 +59,15 @@ public class CellButton extends Button implements CellObserver {
         var rest = pieceString.substring(1, pieceString.length());
         var correctedPieceString = firstLetter.toUpperCase() + rest;
 
-        var imageView = new ImageView(new Image("/assets/" + correctedPieceString + ".png"));
-        getStackPane().getChildren().add(1, imageView);
+        ImageView imageView;
+
+        if (color == Color.BLACK) {
+            imageView = new ImageView(new Image("/assets/" + correctedPieceString + "B.png"));
+            getStackPane().getChildren().add(1, imageView);
+        } else if (color == Color.WHITE) {
+            imageView = new ImageView(new Image("/assets/" + correctedPieceString + "W.png"));
+            getStackPane().getChildren().add(1, imageView);
+        }
     }
     @Override
     public void setColor(Color color) {

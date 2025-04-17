@@ -53,17 +53,17 @@ public class Board {
     public void setCell(Coordinate coord, Cell cell) {
         getGrid()[coord.getRow()][coord.getCol()] = cell;
     }
-    public void setPiece(int row, int col, Piece piece) {
-        getCell(row, col).setPiece(piece);
+    public void setPiece(int row, int col, Piece piece, Color color) {
+        getCell(row, col).setPiece(piece, color);
     }
-    public void setPiece(Coordinate coord, Piece piece) {
-        getCell(coord).setPiece(piece);
+    public void setPiece(Coordinate coord, Piece piece, Color color) {
+        getCell(coord).setPiece(piece, color);
     }
     public void setAllPawns() {
         for (int row = 0; row < getRows(); row++) {
             for (int col = 0; col < getCols(); col++) {
                 var cell = grid[row][col];
-                cell.setPiece(Piece.PAWN);
+                cell.setPiece(Piece.PAWN, Color.BLACK);
             }
         }
     }

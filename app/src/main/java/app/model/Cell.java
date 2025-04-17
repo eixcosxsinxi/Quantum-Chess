@@ -13,6 +13,7 @@ public class Cell {
     public Cell(Coordinate coord) {
         // A Cell contains a Color, Piece, Coordinate, and CellObserver
         setCoord(coord);
+        setPiece(Piece.NONE, Color.NONE);
     }
 
     /* Getters */
@@ -33,9 +34,10 @@ public class Cell {
     public void setCellObserver(CellButton cellObserver) {
         this.cellObserver = cellObserver;
     }
-    public void setPiece(Piece piece) {
+    public void setPiece(Piece piece, Color color) {
         this.piece = piece;
-        getCellObserver().setPiece(piece);
+        if (getCellObserver() != null)
+            getCellObserver().setPiece(piece, color);
     }
     public void setColor(Color color) {
         this.color = color;

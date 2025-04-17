@@ -3,5 +3,6 @@ package app.vals;
 public enum Color {
     WHITE,
     BLACK,
-    BLUE
+    BLUE,
+    NONE
 }

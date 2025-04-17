@@ -121,7 +121,7 @@ public class Chess {
         selectSquares(currentCell);
 
         // TODO: write code to change the next button action to select a move and check if they can
-        doMoveAction();
+        doMoveAction(currentCell);
 
         // Look for a win, if no win, observe to update view.
         setWinner(tryWin()); // TODO: maybe move win check to end of tryMove
@@ -136,18 +136,20 @@ public class Chess {
         }
     }
 
-    public void doMoveAction() { // set all onActions to look for another click to parse as a move
+    public void doMoveAction(Cell currentCell) { // set all onActions to look for another click to parse as a move
         for (Cell[] cellArray : board.getGrid()) {
             for (Cell cell : cellArray) {
                 cell.getCellObserver().setOnAction(e -> {
                     var model = Chess.getModelInstance();
-                    model.parseMove(cell.getCoord());
+                    model.parseMove(currentCell, cell);
                 });
             }
         }
     }
 
-    public void parseMove(Coordinate coord) { // parse the move at the coordinate
+    // TODO: Write logic to parse a movement to the coord 'coord'
+    public void parseMove(Cell currentCell, Cell movetoCell) { // parse the move at the coordinate
+        var coord = movetoCell.getCoord();
         board.getCell(coord).getCellObserver().deselectPiece(); // Just a test line to see if onAction worked
     }
 

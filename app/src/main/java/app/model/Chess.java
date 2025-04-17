@@ -29,6 +29,14 @@ public class Chess {
         observer.play();
     }
 
+    public boolean inCheck() {
+        // TODO: write inCheck.
+        /*
+        * probably will highlight all squares of all pieces on board and check if king is on blue square.
+        * */
+        return false; // for now...
+    }
+
     public void selectSquares(Cell currentCell) { // TODO: write collision logic in all of these
         var piece = currentCell.getPiece();
         var boardState = getBoard();
@@ -41,6 +49,16 @@ public class Chess {
         switch (piece) { // highlight squares according to each type of piece
             case KING -> {
                 // TODO: write logic for where the king can move to
+                if (!inCheck()) {
+                    if (coordRow > 0) // N square
+                        boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
+                    if (coordCol > 0) // W square
+                        boardState.getCell(coordRow, coordCol - 1).setColor(Color.BLUE);
+                    if (coordRow < boardRows - 1) // S square
+                        boardState.getCell(coordRow + 1, coordCol).setColor(Color.BLUE);
+                    if (coordCol < boardCols - 1) // E square
+                        boardState.getCell(coordRow, coordCol + 1).setColor(Color.BLUE);
+                }
             }
             case QUEEN -> {
                 // TODO: write logic for where the queen can move to
@@ -120,11 +138,10 @@ public class Chess {
 
         selectSquares(currentCell);
 
-        // TODO: write code to change the next button action to select a move and check if they can
         doMoveAction(currentCell);
 
         // Look for a win, if no win, observe to update view.
-        setWinner(tryWin()); // TODO: maybe move win check to end of tryMove
+        setWinner(tryWin());
 
         if (getWinner() == Player.BLACK)
             observer.win(Player.BLACK);
@@ -132,7 +149,6 @@ public class Chess {
             observer.win(Player.WHITE);
         else {
             changeTurn();
-            // currentCellObserver.deselectPiece(); // TODO: put this after a move is finished and before the win is checked
         }
     }
 

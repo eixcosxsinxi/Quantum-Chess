@@ -42,6 +42,7 @@ public class Cell {
     }
     public void setPiece(Piece piece, Color color) {
         this.piece = piece;
+        piece.setColor(color);
         if (getCellObserver() != null)
             getCellObserver().setPiece(piece, color);
     }

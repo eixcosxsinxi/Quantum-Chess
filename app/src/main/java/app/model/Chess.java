@@ -147,14 +147,16 @@ public class Chess {
         }
     }
 
-    // TODO: Write logic to parse a movement to the coord 'coord'
+    // TODO: Write collision logic and 'eat' method
     public void parseMove(Cell currentCell, Cell movetoCell) { // parse the move at the coordinate
         var movetoCoord = movetoCell.getCoord();
         var currentCoord = currentCell.getCoord();
-        board.getCell(movetoCoord).setPiece(board.getCell(currentCoord).getPiece(), board.getCell(currentCoord).getColor());
-        board.getCell(currentCoord).removePiece();
-        //board.getCell(currentCoord).getCellObserver().deselectPiece(); // Just a test line to see if onAction worked
-        board.getCell(movetoCoord).getCellObserver().selectPiece();
+        var currentPiece = currentCell.getPiece();
+        if (movetoCell.getColor() == Color.BLUE) {
+            board.getCell(currentCoord).getCellObserver().deselectPiece();
+            board.getCell(movetoCoord).setPiece(currentPiece, currentPiece.getColor());
+            board.getCell(currentCoord).removePiece();
+        }
     }
 
     public void changeTurn() {

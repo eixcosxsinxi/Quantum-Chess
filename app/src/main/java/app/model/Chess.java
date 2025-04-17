@@ -48,7 +48,7 @@ public class Chess {
         var boardCols = boardState.getCols();
         switch (piece) { // highlight squares according to each type of piece
             case KING -> {
-                // TODO: write logic for where the king can move to
+                // TODO: write logic for king in check
                 if (!inCheck()) {
                     if (coordRow > 0) // N square
                         boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
@@ -58,6 +58,14 @@ public class Chess {
                         boardState.getCell(coordRow + 1, coordCol).setColor(Color.BLUE);
                     if (coordCol < boardCols - 1) // E square
                         boardState.getCell(coordRow, coordCol + 1).setColor(Color.BLUE);
+                    if (coordRow > 0 && coordCol > 0) // NW square
+                        boardState.getCell(coordRow - 1, coordCol - 1).setColor(Color.BLUE);
+                    if (coordRow > 0 && coordCol < boardCols - 1) // NE square
+                        boardState.getCell(coordRow - 1, coordCol + 1).setColor(Color.BLUE);
+                    if (coordRow < boardRows - 1 && coordCol < boardCols - 1) // SE square
+                        boardState.getCell(coordRow + 1, coordCol + 1).setColor(Color.BLUE);
+                    if (coordRow < boardRows - 1 && coordCol > 0) // SW square
+                        boardState.getCell(coordRow + 1, coordCol - 1).setColor(Color.BLUE);
                 }
             }
             case QUEEN -> {

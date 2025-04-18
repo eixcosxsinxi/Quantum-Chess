@@ -138,6 +138,24 @@ public class Chess {
         }
     }
 
+    public void deselectPieces() {
+        board.setColors();
+    }
+
+    public void doTurnAction() {
+        for (Cell[] cells : board.getGrid()) {
+            for (Cell cell : cells) {
+                var coord = cell.getCoord();
+                var cellObserver = cell.getCellObserver();
+                var model = Chess.getModelInstance();
+
+                cellObserver.setOnAction(e -> {
+                    model.tryTurn(coord);
+                });
+            }
+        }
+    }
+
     public void tryTurn(Coordinate coord) {
 
         var currentCell = getBoard().getCell(coord);
@@ -147,17 +165,6 @@ public class Chess {
         selectSquares(currentCell);
 
         doMoveAction(currentCell);
-
-        // Look for a win, if no win, observe to update view.
-        setWinner(tryWin());
-
-        if (getWinner() == Player.BLACK)
-            observer.win(Player.BLACK);
-        else if (getWinner() == Player.WHITE)
-            observer.win(Player.WHITE);
-        else {
-            changeTurn();
-        }
     }
 
     public void doMoveAction(Cell currentCell) { // set all onActions to look for another click to parse as a move
@@ -180,6 +187,19 @@ public class Chess {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
             board.getCell(movetoCoord).setPiece(currentPiece, currentPiece.getColor());
             board.getCell(currentCoord).removePiece();
+
+            // Look for a win, if no win, observe to update view.
+            setWinner(tryWin());
+
+            if (getWinner() == Player.BLACK)
+                observer.win(Player.BLACK);
+            else if (getWinner() == Player.WHITE)
+                observer.win(Player.WHITE);
+            else {
+                changeTurn();
+                deselectPieces(); // get rid of the blue highlights
+                doTurnAction(); // start the cycle again
+            }
         }
     }
 

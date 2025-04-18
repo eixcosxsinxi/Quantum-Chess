@@ -28,7 +28,7 @@ public class MainWindow implements Observer {
         this.gameStage = gameStage;
 
         // media plays here
-        playMedia();
+        //playMedia();
 
         // Start Game
         model = Chess.getModelInstance();

@@ -95,6 +95,9 @@ public class CellButton extends Button implements CellObserver {
                 else
                     images.set(0, imageView);
             }
+            case RED -> {
+                var imageView = new ImageView(new Image("/assets/RedSquare.png"));
+            }
         }
     }
     @Override

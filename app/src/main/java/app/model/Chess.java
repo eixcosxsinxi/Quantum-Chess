@@ -69,7 +69,6 @@ public class Chess {
                 }
             }
             case QUEEN -> {
-                // TODO: write logic for N, E, S, and W movement of queen
                 int top = coordRow + 1;
                 int bottom = boardRows - coordRow;
                 int left = coordCol + 1;
@@ -103,10 +102,29 @@ public class Chess {
                     for (int i = 1; i < bottom; i++)
                         boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
                 }
+                for (int i = 1; i < top; i++) // highlights the N column
+                    boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
+                for (int i = 1; i < bottom; i++) // highlights the S column
+                    boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
+                for (int i = 1; i < left; i++) // highlights the W row
+                    boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
+                for (int i = 1; i < right; i++) // highlights the E row
+                    boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
             }
             case ROOK -> {
-                // TODO: write logic for where the rook can move to
+                int top = coordRow + 1;
+                int bottom = boardRows - coordRow;
+                int left = coordCol + 1;
+                int right = boardCols - coordCol;
 
+                for (int i = 1; i < top; i++) // highlights the N column
+                    boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
+                for (int i = 1; i < bottom; i++) // highlights the S column
+                    boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
+                for (int i = 1; i < left; i++) // highlights the W row
+                    boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
+                for (int i = 1; i < right; i++) // highlights the E row
+                    boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
             }
             case BISHOP -> {
                 int top = coordRow + 1;

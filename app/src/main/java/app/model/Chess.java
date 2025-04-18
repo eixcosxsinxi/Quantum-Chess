@@ -69,10 +69,44 @@ public class Chess {
                 }
             }
             case QUEEN -> {
-                // TODO: write logic for where the queen can move to
+                // TODO: write logic for N, E, S, and W movement of queen
+                int top = coordRow + 1;
+                int bottom = boardRows - coordRow;
+                int left = coordCol + 1;
+                int right = boardCols - coordCol;
+
+                if (right <= bottom) { // highlights the NW diagonal
+                    for (int i = 1; i < right; i++)
+                        boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
+                } else {
+                    for (int i = 1; i < bottom; i++)
+                        boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
+                }
+                if (left <= top) { // highlights the SE diagonal
+                    for (int i = 1; i < left; i++)
+                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
+                } else {
+                    for (int i = 1; i < top; i++)
+                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
+                }
+                if (right <= top) { // highlights the NE diagonal
+                    for (int i = 1; i < right; i++)
+                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
+                } else {
+                    for (int i = 1; i < top; i++)
+                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
+                }
+                if (left <= bottom) { // highlights the SW diagonal
+                    for (int i = 1; i < left; i++)
+                        boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
+                } else {
+                    for (int i = 1; i < bottom; i++)
+                        boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
+                }
             }
             case ROOK -> {
                 // TODO: write logic for where the rook can move to
+
             }
             case BISHOP -> {
                 int top = coordRow + 1;
@@ -183,6 +217,8 @@ public class Chess {
         var movetoCoord = movetoCell.getCoord();
         var currentCoord = currentCell.getCoord();
         var currentPiece = currentCell.getPiece();
+        if (currentPiece.getFirstMove())
+            currentPiece.setFirstMove(false); // so that the pawn piece can only move two squares on first turn
         if (movetoCell.getColor() == Color.BLUE) {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
             board.getCell(movetoCoord).setPiece(currentPiece, currentPiece.getColor());

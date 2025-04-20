@@ -10,5 +10,5 @@ https://youtu.be/JAcLDneE5Vs
 ***
 ### Team Members and Hours
 |Bob|Wesley|
-------------
+|---|------|
 |30min|14hr|

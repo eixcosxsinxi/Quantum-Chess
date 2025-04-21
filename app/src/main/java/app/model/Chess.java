@@ -39,6 +39,7 @@ public class Chess {
 
     public void selectSquares(Cell currentCell) { // TODO: write collision logic in all of these
         var piece = currentCell.getPiece();
+        var color = piece.getColor();
         var boardState = getBoard();
         var coord = currentCell.getCoord();
 
@@ -46,26 +47,59 @@ public class Chess {
         var coordCol = coord.getCol();
         var boardRows = boardState.getRows();
         var boardCols = boardState.getCols();
+
         switch (piece) { // highlight squares according to each type of piece
             case KING -> {
                 // TODO: write logic for king in check
                 if (!inCheck()) {
-                    if (coordRow > 0) // N square
-                        boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
-                    if (coordCol > 0) // W square
-                        boardState.getCell(coordRow, coordCol - 1).setColor(Color.BLUE);
-                    if (coordRow < boardRows - 1) // S square
-                        boardState.getCell(coordRow + 1, coordCol).setColor(Color.BLUE);
-                    if (coordCol < boardCols - 1) // E square
-                        boardState.getCell(coordRow, coordCol + 1).setColor(Color.BLUE);
-                    if (coordRow > 0 && coordCol > 0) // NW square
-                        boardState.getCell(coordRow - 1, coordCol - 1).setColor(Color.BLUE);
-                    if (coordRow > 0 && coordCol < boardCols - 1) // NE square
-                        boardState.getCell(coordRow - 1, coordCol + 1).setColor(Color.BLUE);
-                    if (coordRow < boardRows - 1 && coordCol < boardCols - 1) // SE square
-                        boardState.getCell(coordRow + 1, coordCol + 1).setColor(Color.BLUE);
-                    if (coordRow < boardRows - 1 && coordCol > 0) // SW square
-                        boardState.getCell(coordRow + 1, coordCol - 1).setColor(Color.BLUE);
+                    if (coordRow > 0) { // N square
+                        if (boardState.getCell(coordRow-1, coordCol).getPiece().getColor().equals(Color.NONE))
+                            boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
+                        else if (!boardState.getCell(coordRow-1, coordCol).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow-1, coordCol).setColor(Color.RED);
+                    }
+                    if (coordCol > 0) { // W square
+                        if (boardState.getCell(coordRow, coordCol - 1).getPiece().getColor().equals(Color.NONE))
+                            boardState.getCell(coordRow, coordCol - 1).setColor(Color.BLUE);
+                        else if (!boardState.getCell(coordRow, coordCol - 1).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow, coordCol - 1).setColor(Color.RED);
+                    }
+                    if (coordRow < boardRows - 1) { // S square
+                        if (boardState.getCell(coordRow + 1, coordCol).getPiece().getColor().equals(Color.NONE))
+                            boardState.getCell(coordRow + 1, coordCol).setColor(Color.BLUE);
+                        else if (!boardState.getCell(coordRow + 1, coordCol).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow + 1, coordCol).setColor(Color.RED);
+                    }
+                    if (coordCol < boardCols - 1) { // E square
+                       if (boardState.getCell(coordRow, coordCol + 1).getPiece().getColor().equals(Color.NONE))
+                           boardState.getCell(coordRow, coordCol + 1).setColor(Color.BLUE);
+                       else if (!boardState.getCell(coordRow, coordCol + 1).getPiece().getColor().equals(color))
+                           boardState.getCell(coordRow, coordCol + 1).setColor(Color.RED);
+                    }
+                    if (coordRow > 0 && coordCol > 0) { // NW square
+                       if (boardState.getCell(coordRow - 1, coordCol - 1).getPiece().getColor().equals(Color.NONE))
+                           boardState.getCell(coordRow - 1, coordCol - 1).setColor(Color.BLUE);
+                       else if (!boardState.getCell(coordRow - 1, coordCol - 1).getPiece().getColor().equals(color))
+                           boardState.getCell(coordRow - 1, coordCol - 1).setColor(Color.RED);
+                    }
+                    if (coordRow > 0 && coordCol < boardCols - 1) { // NE square
+                       if (boardState.getCell(coordRow - 1, coordCol + 1).getPiece().getColor().equals(Color.NONE))
+                           boardState.getCell(coordRow - 1, coordCol + 1).setColor(Color.BLUE);
+                       else if (!boardState.getCell(coordRow - 1, coordCol + 1).getPiece().getColor().equals(color))
+                           boardState.getCell(coordRow - 1, coordCol + 1).setColor(Color.RED);
+                    }
+                    if (coordRow < boardRows - 1 && coordCol < boardCols - 1) { // SE square
+                       if (boardState.getCell(coordRow + 1, coordCol + 1).getPiece().getColor().equals(Color.NONE))
+                           boardState.getCell(coordRow + 1, coordCol + 1).setColor(Color.BLUE);
+                       else if (!boardState.getCell(coordRow + 1, coordCol + 1).getPiece().getColor().equals(color))
+                           boardState.getCell(coordRow + 1, coordCol + 1).setColor(Color.RED);
+                    }
+                    if (coordRow < boardRows - 1 && coordCol > 0) { // SW square
+                       if (boardState.getCell(coordRow + 1, coordCol - 1).getPiece().getColor().equals(Color.NONE))
+                           boardState.getCell(coordRow + 1, coordCol - 1).setColor(Color.BLUE);
+                       else if (!boardState.getCell(coordRow + 1, coordCol - 1).getPiece().getColor().equals(color))
+                           boardState.getCell(coordRow + 1, coordCol - 1).setColor(Color.RED);
+                    }
                 }
             }
             case QUEEN -> {

@@ -196,14 +196,42 @@ public class Chess {
                 int left = coordCol + 1;
                 int right = boardCols - coordCol;
 
-                for (int i = 1; i < top; i++) // highlights the N column
-                    boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
-                for (int i = 1; i < bottom; i++) // highlights the S column
-                    boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
-                for (int i = 1; i < left; i++) // highlights the W row
-                    boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
-                for (int i = 1; i < right; i++) // highlights the E row
-                    boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
+                for (int i = 1; i < top; i++) { // highlights the N column
+                    if (boardState.getCell(coordRow - i, coordCol).getPiece().getColor().equals(Color.NONE))
+                        boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow - i, coordCol).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow - i, coordCol).setColor(Color.RED);
+                        break;
+                    }
+                }
+                for (int i = 1; i < bottom; i++) { // highlights the S column
+                    if (boardState.getCell(coordRow + i, coordCol).getPiece().getColor().equals(Color.NONE))
+                        boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow + i, coordCol).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow + i, coordCol).setColor(Color.RED);
+                        break;
+                    }
+                }
+                for (int i = 1; i < left; i++) { // highlights the W row
+                    if (boardState.getCell(coordRow, coordCol - i).getPiece().getColor().equals(Color.NONE))
+                        boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow, coordCol - i).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow, coordCol - i).setColor(Color.RED);
+                        break;
+                    }
+                }
+                for (int i = 1; i < right; i++) { // highlights the E row
+                    if (boardState.getCell(coordRow, coordCol + i).getPiece().getColor().equals(Color.NONE))
+                        boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow, coordCol + i).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow, coordCol + i).setColor(Color.RED);
+                        break;
+                    }
+                }
             }
             case BISHOP -> {
                 int top = coordRow + 1;
@@ -211,6 +239,7 @@ public class Chess {
                 int left = coordCol + 1;
                 int right = boardCols - coordCol;
 
+                int end = Math.min(right, bottom);
                 if (right <= bottom) { // highlights the NW diagonal
                     for (int i = 1; i < right; i++)
                         boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
@@ -218,6 +247,7 @@ public class Chess {
                     for (int i = 1; i < bottom; i++)
                         boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
                 }
+                end = Math.min(left, top);
                 if (left <= top) { // highlights the SE diagonal
                     for (int i = 1; i < left; i++)
                         boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
@@ -225,6 +255,7 @@ public class Chess {
                     for (int i = 1; i < top; i++)
                         boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
                 }
+                end = Math.min(right, top);
                 if (right <= top) { // highlights the NE diagonal
                     for (int i = 1; i < right; i++)
                         boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
@@ -232,6 +263,7 @@ public class Chess {
                     for (int i = 1; i < top; i++)
                         boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
                 }
+                end = Math.min(left, bottom);
                 if (left <= bottom) { // highlights the SW diagonal
                     for (int i = 1; i < left; i++)
                         boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);

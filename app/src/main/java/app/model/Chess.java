@@ -38,6 +38,11 @@ public class Chess {
     }
 
     public void selectSquares(Cell currentCell) { // TODO: write collision logic in all of these
+
+        /* TODO: write a boardState.matchesColor(row, col, color) does the logic of checking cell color within the method
+        * can also write a matchesColor(Cell, color)
+         */
+
         var piece = currentCell.getPiece();
         var color = piece.getColor();
         var boardState = getBoard();
@@ -108,42 +113,46 @@ public class Chess {
                 int left = coordCol + 1;
                 int right = boardCols - coordCol;
 
-                if (right <= bottom) { // highlights the NW diagonal
-                    for (int i = 1; i < right; i++)
+                int end = Math.min(right, bottom);
+                for (int i = 1; i < end; i++) { // highlights the NW diagonal
+                    if (boardState.getCell(coordRow + i, coordCol + i).getPiece().getColor().equals(Color.NONE))
                         boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
-                } else {
-                    for (int i = 1; i < bottom; i++)
-                        boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow + i, coordCol + i).getPiece().getColor().equals(color)) {
+                            boardState.getCell(coordRow + i, coordCol + i).setColor(Color.RED);
+                        }
+                        break;
+                    }
                 }
-                if (left <= top) { // highlights the SE diagonal
-                    for (int i = 1; i < left; i++)
-                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
-                } else {
-                    for (int i = 1; i < top; i++)
-                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
+                end = Math.min(left, top);
+                for (int i = 1; i < end; i++) { // highlights the NW diagonal
+                    boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
                 }
-                if (right <= top) { // highlights the NE diagonal
-                    for (int i = 1; i < right; i++)
-                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
-                } else {
-                    for (int i = 1; i < top; i++)
-                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
+                end = Math.min(right, top);
+                for (int i = 1; i < end; i++) { // highlights the NE diagonal
+                    boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
                 }
                 if (left <= bottom) { // highlights the SW diagonal
-                    for (int i = 1; i < left; i++)
+                    for (int i = 1; i < left; i++) {
                         boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
+                    }
                 } else {
-                    for (int i = 1; i < bottom; i++)
+                    for (int i = 1; i < bottom; i++) {
                         boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
+                    }
                 }
-                for (int i = 1; i < top; i++) // highlights the N column
+                for (int i = 1; i < top; i++) { // highlights the N column
                     boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
-                for (int i = 1; i < bottom; i++) // highlights the S column
+                }
+                for (int i = 1; i < bottom; i++) { // highlights the S column
                     boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
-                for (int i = 1; i < left; i++) // highlights the W row
+                }
+                for (int i = 1; i < left; i++) { // highlights the W row
                     boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
-                for (int i = 1; i < right; i++) // highlights the E row
+                }
+                for (int i = 1; i < right; i++) { // highlights the E row
                     boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
+                }
             }
             case ROOK -> {
                 int top = coordRow + 1;

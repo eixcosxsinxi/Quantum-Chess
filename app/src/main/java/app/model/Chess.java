@@ -154,16 +154,40 @@ public class Chess {
                     }
                 }
                 for (int i = 1; i < top; i++) { // highlights the N column
-                    boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
+                    if (boardState.getCell(coordRow - i, coordCol).getPiece().getColor().equals(Color.NONE))
+                        boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow - i, coordCol).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow - i, coordCol).setColor(Color.RED);
+                        break;
+                    }
                 }
                 for (int i = 1; i < bottom; i++) { // highlights the S column
-                    boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
+                    if (boardState.getCell(coordRow + i, coordCol).getPiece().getColor().equals(Color.NONE))
+                        boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow + i, coordCol).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow + i, coordCol).setColor(Color.RED);
+                        break;
+                    }
                 }
                 for (int i = 1; i < left; i++) { // highlights the W row
-                    boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
+                    if (boardState.getCell(coordRow, coordCol - i).getPiece().getColor().equals(Color.NONE))
+                        boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow, coordCol - i).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow, coordCol - i).setColor(Color.RED);
+                        break;
+                    }
                 }
                 for (int i = 1; i < right; i++) { // highlights the E row
-                    boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
+                    if (boardState.getCell(coordRow, coordCol + i).getPiece().getColor().equals(Color.NONE))
+                        boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
+                    else {
+                        if (!boardState.getCell(coordRow, coordCol + i).getPiece().getColor().equals(color))
+                            boardState.getCell(coordRow, coordCol + i).setColor(Color.RED);
+                        break;
+                    }
                 }
             }
             case ROOK -> {

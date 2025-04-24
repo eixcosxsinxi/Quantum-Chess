@@ -37,6 +37,26 @@ public class Chess {
         return false; // for now...
     }
 
+    private boolean inRange(int row, int col) { // to check if a cell coord is in range
+        int max = getBoard().getRows() - 1;
+        return row >= 0 && row <= max && col >= 0 && col <= max;
+    }
+
+    private boolean colorCell(int row, int col, Color color) { // the colorCell logic
+        if (inRange(row, col)) {
+            Cell cell = getBoard().getCell(row, col);
+
+            Color cellColor = cell.getPiece().getColor();
+            if (cellColor.equals(Color.NONE)) {
+                cell.setColor(Color.BLUE);
+                return true;
+            } else if (!cellColor.equals(color)) {
+                cell.setColor(Color.RED);
+            }
+        }
+        return false;
+    }
+
     public void selectSquares(Cell currentCell) { // TODO: write collision logic in all of these
 
         /* TODO: write a boardState.matchesColor(row, col, color) does the logic of checking cell color within the method
@@ -57,53 +77,12 @@ public class Chess {
             case KING -> {
                 // TODO: write logic for king in check
                 if (!inCheck()) {
-                    if (coordRow > 0) { // N square
-                        if (boardState.getCell(coordRow-1, coordCol).getPiece().getColor().equals(Color.NONE))
-                            boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
-                        else if (!boardState.getCell(coordRow-1, coordCol).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow-1, coordCol).setColor(Color.RED);
-                    }
-                    if (coordCol > 0) { // W square
-                        if (boardState.getCell(coordRow, coordCol - 1).getPiece().getColor().equals(Color.NONE))
-                            boardState.getCell(coordRow, coordCol - 1).setColor(Color.BLUE);
-                        else if (!boardState.getCell(coordRow, coordCol - 1).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow, coordCol - 1).setColor(Color.RED);
-                    }
-                    if (coordRow < boardRows - 1) { // S square
-                        if (boardState.getCell(coordRow + 1, coordCol).getPiece().getColor().equals(Color.NONE))
-                            boardState.getCell(coordRow + 1, coordCol).setColor(Color.BLUE);
-                        else if (!boardState.getCell(coordRow + 1, coordCol).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow + 1, coordCol).setColor(Color.RED);
-                    }
-                    if (coordCol < boardCols - 1) { // E square
-                       if (boardState.getCell(coordRow, coordCol + 1).getPiece().getColor().equals(Color.NONE))
-                           boardState.getCell(coordRow, coordCol + 1).setColor(Color.BLUE);
-                       else if (!boardState.getCell(coordRow, coordCol + 1).getPiece().getColor().equals(color))
-                           boardState.getCell(coordRow, coordCol + 1).setColor(Color.RED);
-                    }
-                    if (coordRow > 0 && coordCol > 0) { // NW square
-                       if (boardState.getCell(coordRow - 1, coordCol - 1).getPiece().getColor().equals(Color.NONE))
-                           boardState.getCell(coordRow - 1, coordCol - 1).setColor(Color.BLUE);
-                       else if (!boardState.getCell(coordRow - 1, coordCol - 1).getPiece().getColor().equals(color))
-                           boardState.getCell(coordRow - 1, coordCol - 1).setColor(Color.RED);
-                    }
-                    if (coordRow > 0 && coordCol < boardCols - 1) { // NE square
-                       if (boardState.getCell(coordRow - 1, coordCol + 1).getPiece().getColor().equals(Color.NONE))
-                           boardState.getCell(coordRow - 1, coordCol + 1).setColor(Color.BLUE);
-                       else if (!boardState.getCell(coordRow - 1, coordCol + 1).getPiece().getColor().equals(color))
-                           boardState.getCell(coordRow - 1, coordCol + 1).setColor(Color.RED);
-                    }
-                    if (coordRow < boardRows - 1 && coordCol < boardCols - 1) { // SE square
-                       if (boardState.getCell(coordRow + 1, coordCol + 1).getPiece().getColor().equals(Color.NONE))
-                           boardState.getCell(coordRow + 1, coordCol + 1).setColor(Color.BLUE);
-                       else if (!boardState.getCell(coordRow + 1, coordCol + 1).getPiece().getColor().equals(color))
-                           boardState.getCell(coordRow + 1, coordCol + 1).setColor(Color.RED);
-                    }
-                    if (coordRow < boardRows - 1 && coordCol > 0) { // SW square
-                       if (boardState.getCell(coordRow + 1, coordCol - 1).getPiece().getColor().equals(Color.NONE))
-                           boardState.getCell(coordRow + 1, coordCol - 1).setColor(Color.BLUE);
-                       else if (!boardState.getCell(coordRow + 1, coordCol - 1).getPiece().getColor().equals(color))
-                           boardState.getCell(coordRow + 1, coordCol - 1).setColor(Color.RED);
+                    for (int i = -1; i <= 1; ++i) {
+                        for (int j = -1; j <= 1; ++j) {
+                            if (i != 0 || j != 0) {
+                                colorCell(coordRow + i, coordCol + j, color);
+                            }
+                        }
                     }
                 }
             }
@@ -115,79 +94,39 @@ public class Chess {
 
                 int end = Math.min(right, bottom);
                 for (int i = 1; i < end; i++) { // highlights the SE diagonal
-                    if (boardState.getCell(coordRow + i, coordCol + i).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow + i, coordCol + i).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow + i, coordCol + i).setColor(Color.RED);
+                    if (!colorCell(coordRow + i, coordCol + i, color))
                         break;
-                    }
                 }
                 end = Math.min(left, top);
                 for (int i = 1; i < end; i++) { // highlights the NW diagonal
-                    if (boardState.getCell(coordRow - i, coordCol - i).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow - i, coordCol - i).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow - i, coordCol - i).setColor(Color.RED);
+                    if (!colorCell(coordRow - i, coordCol - i, color))
                         break;
-                    }
                 }
                 end = Math.min(right, top);
                 for (int i = 1; i < end; i++) { // highlights the NE diagonal
-                    if (boardState.getCell(coordRow - i, coordCol + i).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow - i, coordCol + i).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow - i, coordCol + i).setColor(Color.RED);
+                    if (!colorCell(coordRow - i, coordCol + i, color))
                         break;
-                    }
                 }
                 end = Math.min(left, bottom);
                 for (int i = 1; i < end; i++) { // highlights the SW diagonal
-                    if (boardState.getCell(coordRow + i, coordCol - i).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow + i, coordCol - i).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow + i, coordCol - i).setColor(Color.RED);
+                    if (!colorCell(coordRow + i, coordCol - i, color))
                         break;
-                    }
                 }
                 for (int i = 1; i < top; i++) { // highlights the N column
-                    if (boardState.getCell(coordRow - i, coordCol).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow - i, coordCol).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow - i, coordCol).setColor(Color.RED);
+                    if (!colorCell(coordRow - i, coordCol, color))
                         break;
-                    }
                 }
                 for (int i = 1; i < bottom; i++) { // highlights the S column
-                    if (boardState.getCell(coordRow + i, coordCol).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow + i, coordCol).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow + i, coordCol).setColor(Color.RED);
+                    if (!colorCell(coordRow + i, coordCol, color))
                         break;
-                    }
                 }
                 for (int i = 1; i < left; i++) { // highlights the W row
-                    if (boardState.getCell(coordRow, coordCol - i).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow, coordCol - i).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow, coordCol - i).setColor(Color.RED);
+                    if (!colorCell(coordRow, coordCol - i, color))
                         break;
-                    }
                 }
                 for (int i = 1; i < right; i++) { // highlights the E row
-                    if (boardState.getCell(coordRow, coordCol + i).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow, coordCol + i).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow, coordCol + i).setColor(Color.RED);
+                    if (!colorCell(coordRow, coordCol + i, color))
                         break;
-                    }
                 }
             }
             case ROOK -> {
@@ -197,40 +136,20 @@ public class Chess {
                 int right = boardCols - coordCol;
 
                 for (int i = 1; i < top; i++) { // highlights the N column
-                    if (boardState.getCell(coordRow - i, coordCol).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow - i, coordCol).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow - i, coordCol).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow - i, coordCol).setColor(Color.RED);
+                    if (!colorCell(coordRow - i, coordCol, color))
                         break;
-                    }
                 }
                 for (int i = 1; i < bottom; i++) { // highlights the S column
-                    if (boardState.getCell(coordRow + i, coordCol).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow + i, coordCol).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow + i, coordCol).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow + i, coordCol).setColor(Color.RED);
+                    if (!colorCell(coordRow + i, coordCol, color))
                         break;
-                    }
                 }
                 for (int i = 1; i < left; i++) { // highlights the W row
-                    if (boardState.getCell(coordRow, coordCol - i).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow, coordCol - i).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow, coordCol - i).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow, coordCol - i).setColor(Color.RED);
+                    if (!colorCell(coordRow, coordCol - i, color))
                         break;
-                    }
                 }
                 for (int i = 1; i < right; i++) { // highlights the E row
-                    if (boardState.getCell(coordRow, coordCol + i).getPiece().getColor().equals(Color.NONE))
-                        boardState.getCell(coordRow, coordCol + i).setColor(Color.BLUE);
-                    else {
-                        if (!boardState.getCell(coordRow, coordCol + i).getPiece().getColor().equals(color))
-                            boardState.getCell(coordRow, coordCol + i).setColor(Color.RED);
+                    if (!colorCell(coordRow, coordCol + i, color))
                         break;
-                    }
                 }
             }
             case BISHOP -> {
@@ -240,36 +159,24 @@ public class Chess {
                 int right = boardCols - coordCol;
 
                 int end = Math.min(right, bottom);
-                if (right <= bottom) { // highlights the NW diagonal
-                    for (int i = 1; i < right; i++)
-                        boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
-                } else {
-                    for (int i = 1; i < bottom; i++)
-                        boardState.getCell(coordRow + i, coordCol + i).setColor(Color.BLUE);
+                for (int i = 1; i < end; i++) { // highlights the SE diagonal
+                    if (!colorCell(coordRow + i, coordCol + i, color))
+                        break;
                 }
                 end = Math.min(left, top);
-                if (left <= top) { // highlights the SE diagonal
-                    for (int i = 1; i < left; i++)
-                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
-                } else {
-                    for (int i = 1; i < top; i++)
-                        boardState.getCell(coordRow - i, coordCol - i).setColor(Color.BLUE);
+                for (int i = 1; i < end; i++) { // highlights the NW diagonal
+                    if (!colorCell(coordRow - i, coordCol - i, color))
+                        break;
                 }
                 end = Math.min(right, top);
-                if (right <= top) { // highlights the NE diagonal
-                    for (int i = 1; i < right; i++)
-                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
-                } else {
-                    for (int i = 1; i < top; i++)
-                        boardState.getCell(coordRow - i, coordCol + i).setColor(Color.BLUE);
+                for (int i = 1; i < end; i++) { // highlights the NE diagonal
+                    if (!colorCell(coordRow - i, coordCol + i, color))
+                        break;
                 }
                 end = Math.min(left, bottom);
-                if (left <= bottom) { // highlights the SW diagonal
-                    for (int i = 1; i < left; i++)
-                        boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
-                } else {
-                    for (int i = 1; i < bottom; i++)
-                        boardState.getCell(coordRow + i, coordCol - i).setColor(Color.BLUE);
+                for (int i = 1; i < end; i++) { // highlights the SW diagonal
+                    if (!colorCell(coordRow + i, coordCol - i, color))
+                        break;
                 }
             }
             case KNIGHT -> {

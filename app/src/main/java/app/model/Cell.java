@@ -13,12 +13,12 @@ public class Cell {
     public Cell(Coordinate coord) {
         // A Cell contains a Color, Piece, Coordinate, and CellObserver
         setCoord(coord);
-        setPiece("NON", Color.NONE, true);
+        setPiece("NONE", Color.NONE, true);
     }
 
     public void removePiece() {
         this.piece.setType("NONE");
-        this.color = Color.NONE;
+        this.piece.setColor(Color.NONE);
         getCellObserver().removePiece();
     }
 

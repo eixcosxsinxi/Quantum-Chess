@@ -100,7 +100,7 @@ public class MainWindow implements Observer {
         var board = setChessBoard();
         board.setColors();
         //board.setAllPawns(); // for testing: will create all black pawns
-        board.setPiece(new Coordinate(3, 2), "KNIGHT", Color.WHITE, true);
+        //board.setPiece(new Coordinate(3, 2), "KNIGHT", Color.WHITE, true);
         //board.setPiece(new Coordinate(6, 5), "PAWN", Color.BLACK, true);
         //board.setPiece(new Coordinate(1, 5), "BISHOP", Color.BLACK, true);
         //board.setPiece(new Coordinate(1, 1), "ROOK", Color.BLACK, true);

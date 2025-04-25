@@ -44,13 +44,14 @@ public class Chess {
 
     private boolean colorCell(int row, int col, Color color) { // the colorCell logic
         if (inRange(row, col)) {
-            Cell cell = getBoard().getCell(row, col);
+            var cell = getBoard().getCell(row, col);
+            var pieceColor = cell.getPiece().getColor();
+            //System.out.println(pieceColor);
 
-            Color cellColor = cell.getPiece().getColor();
-            if (cellColor.equals(Color.NONE)) {
+            if (pieceColor.equals(Color.NONE)) {
                 cell.setColor(Color.BLUE);
                 return true;
-            } else if (!cellColor.equals(color)) {
+            } else if (!pieceColor.equals(color)) {
                 cell.setColor(Color.RED);
             }
         }
@@ -178,21 +179,21 @@ public class Chess {
             }
             case "KNIGHT" -> { // TODO: add collision logic
                 if (coordRow > 0 && coordCol > 1) // up 1 left 2
-                    boardState.getCell(coordRow - 1, coordCol - 2).setColor(Color.BLUE);
+                    colorCell(coordRow - 1, coordCol - 2, color);
                 if (coordRow > 0 && coordCol < boardCols - 2) // up 1 right 2
-                    boardState.getCell(coordRow - 1, coordCol + 2).setColor(Color.BLUE);
-                if (coordRow < boardRows - 2 && coordCol > 1) // down 1 left 2
-                    boardState.getCell(coordRow + 1, coordCol - 2).setColor(Color.BLUE);
+                    colorCell(coordRow - 1, coordCol + 2, color);
+                if (coordRow < boardRows - 1 && coordCol > 1) // down 1 left 2
+                    colorCell(coordRow + 1, coordCol - 2, color);
                 if (coordRow < boardRows - 1 && coordCol < boardCols - 2) // down 1 right 2
-                    boardState.getCell(coordRow + 1, coordCol + 2).setColor(Color.BLUE);
+                    colorCell(coordRow + 1, coordCol + 2, color);
                 if (coordRow < boardRows - 2 && coordCol > 0) // down 2 left 1
-                    boardState.getCell(coordRow + 2, coordCol - 1).setColor(Color.BLUE);
+                    colorCell(coordRow + 2, coordCol - 1, color);
                 if (coordRow < boardRows - 2 && coordCol < boardCols - 1) // down 2 right 1
-                    boardState.getCell(coordRow + 2, coordCol + 1).setColor(Color.BLUE);
+                    colorCell(coordRow + 2, coordCol + 1, color);
                 if (coordRow > 1 && coordCol > 0) // up 2 left 1
-                    boardState.getCell(coordRow - 2, coordCol - 1).setColor(Color.BLUE);
+                    colorCell(coordRow - 2, coordCol - 1, color);
                 if (coordRow > 1 && coordCol < boardCols - 1) // up 2 right 1
-                    boardState.getCell(coordRow - 2, coordCol + 1).setColor(Color.BLUE);
+                    colorCell(coordRow - 2, coordCol + 1, color);
             }
             case "PAWN" -> {
                 if (piece.getColor() == Color.WHITE) { // TODO: add collision logic

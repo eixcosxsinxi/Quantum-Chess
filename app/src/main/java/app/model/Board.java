@@ -68,6 +68,7 @@ public class Board {
         }
     }
     public void setDefaultBoard() {
+        /* Black Pawns */
         setPiece(1, 0, "PAWN", Color.BLACK, true);
         setPiece(1, 1, "PAWN", Color.BLACK, true);
         setPiece(1, 2, "PAWN", Color.BLACK, true);
@@ -76,7 +77,17 @@ public class Board {
         setPiece(1, 5, "PAWN", Color.BLACK, true);
         setPiece(1, 6, "PAWN", Color.BLACK, true);
         setPiece(1, 7, "PAWN", Color.BLACK, true);
+        /* Black Back-Rank Pieces */
+        setPiece(0, 0, "ROOK", Color.BLACK, true);
+        setPiece(0, 1, "KNIGHT", Color.BLACK, true);
+        setPiece(0, 2, "BISHOP", Color.BLACK, true);
+        setPiece(0, 3, "QUEEN", Color.BLACK, true);
+        setPiece(0, 4, "KING", Color.BLACK, true);
+        setPiece(0, 5, "BISHOP", Color.BLACK, true);
+        setPiece(0, 6, "KNIGHT", Color.BLACK, true);
+        setPiece(0, 7, "ROOK", Color.BLACK, true);
 
+        /* White Pawns */
         setPiece(6, 0, "PAWN", Color.WHITE, true);
         setPiece(6, 1, "PAWN", Color.WHITE, true);
         setPiece(6, 2, "PAWN", Color.WHITE, true);
@@ -85,6 +96,15 @@ public class Board {
         setPiece(6, 5, "PAWN", Color.WHITE, true);
         setPiece(6, 6, "PAWN", Color.WHITE, true);
         setPiece(6, 7, "PAWN", Color.WHITE, true);
+        /* White Back-Rank Pieces */
+        setPiece(7, 0, "ROOK", Color.WHITE, true);
+        setPiece(7, 1, "KNIGHT", Color.WHITE, true);
+        setPiece(7, 2, "BISHOP", Color.WHITE, true);
+        setPiece(7, 3, "QUEEN", Color.WHITE, true);
+        setPiece(7, 4, "KING", Color.WHITE, true);
+        setPiece(7, 5, "BISHOP", Color.WHITE, true);
+        setPiece(7, 6, "KNIGHT", Color.WHITE, true);
+        setPiece(7, 7, "ROOK", Color.WHITE, true);
     }
     public void setColors() {
         for (int row = 0; row < getRows(); row++) {
@@ -93,14 +113,14 @@ public class Board {
 
                 if (row % 2 == 0) {
                     if (col % 2 == 0)
-                        cell.setColor(Color.BLACK);
-                    else
                         cell.setColor(Color.WHITE);
+                    else
+                        cell.setColor(Color.BLACK);
                 } else {
                     if (col % 2 == 1)
-                        cell.setColor(Color.BLACK);
-                    else
                         cell.setColor(Color.WHITE);
+                    else
+                        cell.setColor(Color.BLACK);
                 }
             }
         }

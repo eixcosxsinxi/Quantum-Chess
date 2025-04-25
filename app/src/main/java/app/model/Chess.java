@@ -238,11 +238,14 @@ public class Chess {
 
         var currentCell = getBoard().getCell(coord);
         var currentCellObserver = currentCell.getCellObserver();
-        currentCellObserver.selectPiece();
 
-        selectSquares(currentCell);
+        if (currentCell.getPiece().getColor().toString() == getTurn().toString()) {
+            currentCellObserver.selectPiece();
 
-        doMoveAction(currentCell);
+            selectSquares(currentCell);
+
+            doMoveAction(currentCell);
+        }
     }
 
     public void doMoveAction(Cell currentCell) { // set all onActions to look for another click to parse as a move
@@ -262,8 +265,8 @@ public class Chess {
         var currentCoord = currentCell.getCoord();
         var currentPiece = currentCell.getPiece();
 
-        if (currentPiece.getFirstMove())
-            currentPiece.setFirstMove(false); // so that the pawn piece can only move two squares on first turn
+        //if (currentPiece.getFirstMove())
+        //    currentPiece.setFirstMove(false); // so that the pawn piece can only move two squares on first turn
         if (movetoCell.getColor() == Color.BLUE) {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
             board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);

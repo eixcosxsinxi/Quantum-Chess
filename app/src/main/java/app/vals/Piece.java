@@ -1,14 +1,8 @@
 package app.vals;
 
 public class Piece {
-    //PAWN,//(Color.NONE, true),
-    //BISHOP,//(Color.NONE, true),
-    //KNIGHT,//(Color.NONE, true),
-    //ROOK,//(Color.NONE, true),
-    //KING,//(Color.NONE, true),
-    //QUEEN,//(Color.NONE, true),
-    //NONE;//,(Color.NONE, true);
 
+    private double probability = 1.0;
     private boolean firstMove = true; // for the pawns
     private Color color = Color.NONE;
     private String type = "NONE";
@@ -17,12 +11,14 @@ public class Piece {
         setColor(color);
         setFirstMove(firstMove);
         setType(type);
+        setProbability(1.0);
     }
 
     public Piece(String type) {
         this(type, Color.NONE, true);
     }
 
+    /* Getters */
     public boolean getFirstMove() {
         return this.firstMove;
     }
@@ -32,7 +28,11 @@ public class Piece {
     public String getType() {
         return this.type;
     }
+    public double getProbability() {
+        return this.probability;
+    }
 
+    /* Setters */
     public void setFirstMove(boolean firstMove) {
         this.firstMove = firstMove;
     }
@@ -41,6 +41,9 @@ public class Piece {
     }
     public void setType(String type) {
         this.type = type;
+    }
+    public void setProbability(double probability) {
+        this.probability = probability;
     }
 
 }

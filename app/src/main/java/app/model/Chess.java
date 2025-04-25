@@ -46,7 +46,6 @@ public class Chess {
         if (inRange(row, col)) {
             var cell = getBoard().getCell(row, col);
             var pieceColor = cell.getPiece().getColor();
-            //System.out.println(pieceColor);
 
             if (pieceColor.equals(Color.NONE)) {
                 cell.setColor(Color.BLUE);
@@ -223,7 +222,7 @@ public class Chess {
                         break;
                 }
             }
-            case "KNIGHT" -> { // TODO: add collision logic
+            case "KNIGHT" -> {
                 if (coordRow > 0 && coordCol > 1) // up 1 left 2
                     colorCell(coordRow - 1, coordCol - 2, color);
                 if (coordRow > 0 && coordCol < boardCols - 2) // up 1 right 2
@@ -292,14 +291,11 @@ public class Chess {
         }
     }
 
-    // TODO: Write collision logic and 'eat' method
     public void parseMove(Cell currentCell, Cell movetoCell) { // parse the move at the coordinate
         var movetoCoord = movetoCell.getCoord();
         var currentCoord = currentCell.getCoord();
         var currentPiece = currentCell.getPiece();
 
-        //if (currentPiece.getFirstMove())
-        //    currentPiece.setFirstMove(false); // so that the pawn piece can only move two squares on first turn
         if (movetoCell.getColor() == Color.BLUE) {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
             board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
@@ -350,7 +346,28 @@ public class Chess {
     }
 
     public Player tryWin() {
-        return Player.NONE;
+        var board = getBoard();
+        var cells = board.getGrid();
+
+        boolean whiteKing = false;
+        boolean blackKing = false;
+
+        for (Cell[] cellArray : cells) {
+            for (Cell cell : cellArray) {
+                if (cell.getPiece().getType().equals("KING")) {
+                    if (cell.getPiece().getColor() == Color.WHITE)
+                        whiteKing = true;
+                    else if (cell.getPiece().getColor() == Color.BLACK)
+                        blackKing = true;
+                }
+            }
+        }
+        if (whiteKing && blackKing)
+            return Player.NONE;
+        else if (whiteKing)
+            return Player.WHITE;
+        else
+            return Player.BLACK;
     }
 
     /* Getters */

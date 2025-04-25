@@ -25,4 +25,10 @@ public class Coordinate {
         this.col = col;
     }
 
+    public boolean equals(Coordinate other) {
+        if (getRow() == other.getRow() && getCol() == other.getCol())
+            return true;
+        return false;
+    }
+
 }

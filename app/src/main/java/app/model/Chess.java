@@ -205,9 +205,9 @@ public class Chess {
                     if (piece.getFirstMove() && coordRow > 1)
                         boardState.getCell(coordRow - 2, coordCol).setColor(Color.BLUE);
                 } else {
-                    if (coordRow < boardRows && coordRow > 0)
+                    if (coordRow < boardRows - 1)
                         boardState.getCell(coordRow + 1, coordCol).setColor(Color.BLUE);
-                    if (piece.getFirstMove() && coordRow > 1)
+                    if (piece.getFirstMove() && coordRow < boardRows - 2)
                         boardState.getCell(coordRow + 2, coordCol).setColor(Color.BLUE);
                 }
             }
@@ -281,6 +281,10 @@ public class Chess {
                 deselectPieces(); // get rid of the blue highlights
                 doTurnAction(); // start the cycle again
             }
+        } else if (currentCoord.equals(movetoCoord)) {
+            board.getCell(currentCoord).getCellObserver().deselectPiece();
+            deselectPieces();
+            doTurnAction();
         }
     }
 

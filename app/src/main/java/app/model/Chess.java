@@ -64,6 +64,7 @@ public class Chess {
          */
 
         var piece = currentCell.getPiece();
+        var type = piece.getType();
         var color = piece.getColor();
         var boardState = getBoard();
         var coord = currentCell.getCoord();
@@ -73,8 +74,8 @@ public class Chess {
         var boardRows = boardState.getRows();
         var boardCols = boardState.getCols();
 
-        switch (piece) { // highlight squares according to each type of piece
-            case KING -> {
+        switch (type) { // highlight squares according to each type of piece
+            case "KING" -> {
                 // TODO: write logic for king in check
                 if (!inCheck()) {
                     for (int i = -1; i <= 1; ++i) {
@@ -86,7 +87,7 @@ public class Chess {
                     }
                 }
             }
-            case QUEEN -> {
+            case "QUEEN" -> {
                 int top = coordRow + 1;
                 int bottom = boardRows - coordRow;
                 int left = coordCol + 1;
@@ -129,7 +130,7 @@ public class Chess {
                         break;
                 }
             }
-            case ROOK -> {
+            case "ROOK" -> {
                 int top = coordRow + 1;
                 int bottom = boardRows - coordRow;
                 int left = coordCol + 1;
@@ -152,7 +153,7 @@ public class Chess {
                         break;
                 }
             }
-            case BISHOP -> {
+            case "BISHOP" -> {
                 int top = coordRow + 1;
                 int bottom = boardRows - coordRow;
                 int left = coordCol + 1;
@@ -179,7 +180,7 @@ public class Chess {
                         break;
                 }
             }
-            case KNIGHT -> {
+            case "KNIGHT" -> {
                 if (coordRow > 0 && coordCol > 1) // up 1 left 2
                     boardState.getCell(coordRow - 1, coordCol - 2).setColor(Color.BLUE);
                 if (coordRow > 0 && coordCol < boardCols - 1) // up 1 right 2
@@ -197,13 +198,20 @@ public class Chess {
                 if (coordRow > 1 && coordCol < boardCols - 1) // up 2 right 1
                     boardState.getCell(coordRow - 2, coordCol + 1).setColor(Color.BLUE);
             }
-            case PAWN -> {
-                if (coordRow < boardRows && coordRow > 0)
-                    boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
-                if (piece.getFirstMove() && coordRow > 1)
-                    boardState.getCell(coordRow - 2, coordCol).setColor(Color.BLUE);
+            case "PAWN" -> {
+                if (piece.getColor() == Color.WHITE) { // move up the board
+                    if (coordRow < boardRows && coordRow > 0)
+                        boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
+                    if (piece.getFirstMove() && coordRow > 1)
+                        boardState.getCell(coordRow - 2, coordCol).setColor(Color.BLUE);
+                } else {
+                    if (coordRow < boardRows && coordRow > 0)
+                        boardState.getCell(coordRow + 1, coordCol).setColor(Color.BLUE);
+                    if (piece.getFirstMove() && coordRow > 1)
+                        boardState.getCell(coordRow + 2, coordCol).setColor(Color.BLUE);
+                }
             }
-            case NONE -> {}
+            case "NONE" -> {}
             default -> {}
         }
     }
@@ -253,11 +261,12 @@ public class Chess {
         var movetoCoord = movetoCell.getCoord();
         var currentCoord = currentCell.getCoord();
         var currentPiece = currentCell.getPiece();
+
         if (currentPiece.getFirstMove())
             currentPiece.setFirstMove(false); // so that the pawn piece can only move two squares on first turn
         if (movetoCell.getColor() == Color.BLUE) {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
-            board.getCell(movetoCoord).setPiece(currentPiece, currentPiece.getColor());
+            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
             board.getCell(currentCoord).removePiece();
 
             // Look for a win, if no win, observe to update view.

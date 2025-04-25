@@ -13,11 +13,11 @@ public class Cell {
     public Cell(Coordinate coord) {
         // A Cell contains a Color, Piece, Coordinate, and CellObserver
         setCoord(coord);
-        setPiece(Piece.NONE, Color.NONE);
+        setPiece("NON", Color.NONE, true);
     }
 
     public void removePiece() {
-        this.piece = Piece.NONE;
+        this.piece.setType("NONE");
         this.color = Color.NONE;
         getCellObserver().removePiece();
     }
@@ -40,11 +40,10 @@ public class Cell {
     public void setCellObserver(CellButton cellObserver) {
         this.cellObserver = cellObserver;
     }
-    public void setPiece(Piece piece, Color color) {
-        this.piece = piece;
-        piece.setColor(color);
+    public void setPiece(String type, Color color, boolean firstMove) {
+        piece = new Piece(type, color, firstMove);
         if (getCellObserver() != null)
-            getCellObserver().setPiece(piece, color);
+            getCellObserver().setPiece(type, color);
     }
     public void setColor(Color color) {
         this.color = color;

@@ -5,7 +5,7 @@ import app.vals.*;
 public interface CellObserver {
     void selectPiece();
     void deselectPiece();
-    void setPiece(Piece piece, Color color);
+    void setPiece(String type, Color color);
     void setColor(Color color);
     void removePiece();
 }

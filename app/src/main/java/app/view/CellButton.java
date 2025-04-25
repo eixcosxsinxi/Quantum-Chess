@@ -49,14 +49,13 @@ public class CellButton extends Button implements CellObserver {
             node.getStyleClass().remove("current");
     }
     @Override
-    public void setPiece(Piece piece, Color color) {
+    public void setPiece(String type, Color color) {
         // set the piece
 
         // These five lines grab the name of the png file to grab
-        var pieceString = piece.toString();
-        pieceString.toLowerCase();
-        var firstLetter = pieceString.substring(0,1);
-        var rest = pieceString.substring(1, pieceString.length());
+        type.toLowerCase();
+        var firstLetter = type.substring(0,1);
+        var rest = type.substring(1);
         var correctedPieceString = firstLetter.toUpperCase() + rest;
 
         ImageView imageView;
@@ -102,7 +101,10 @@ public class CellButton extends Button implements CellObserver {
                 else
                     images.set(0, imageView);
             }
-        }
+			case NONE -> {
+			}
+			default -> throw new IllegalStateException("Unexpected value: " + color);
+		}
     }
     @Override
     public void removePiece() {

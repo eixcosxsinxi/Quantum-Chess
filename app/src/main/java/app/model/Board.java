@@ -53,19 +53,38 @@ public class Board {
     public void setCell(Coordinate coord, Cell cell) {
         getGrid()[coord.getRow()][coord.getCol()] = cell;
     }
-    public void setPiece(int row, int col, Piece piece, Color color) {
-        getCell(row, col).setPiece(piece, color);
+    public void setPiece(int row, int col, String type, Color color, boolean firstMove) {
+        getCell(row, col).setPiece(type, color, firstMove);
     }
-    public void setPiece(Coordinate coord, Piece piece, Color color) {
-        getCell(coord).setPiece(piece, color);
+    public void setPiece(Coordinate coord, String type, Color color, boolean firstMove) {
+        getCell(coord).setPiece(type, color, firstMove);
     }
     public void setAllPawns() {
         for (int row = 0; row < getRows(); row++) {
             for (int col = 0; col < getCols(); col++) {
                 var cell = grid[row][col];
-                cell.setPiece(Piece.PAWN, Color.BLACK);
+                cell.setPiece("PAWN", Color.BLACK, true);
             }
         }
+    }
+    public void setDefaultBoard() {
+        setPiece(1, 0, "PAWN", Color.BLACK, true);
+        setPiece(1, 1, "PAWN", Color.BLACK, true);
+        setPiece(1, 2, "PAWN", Color.BLACK, true);
+        setPiece(1, 3, "PAWN", Color.BLACK, true);
+        setPiece(1, 4, "PAWN", Color.BLACK, true);
+        setPiece(1, 5, "PAWN", Color.BLACK, true);
+        setPiece(1, 6, "PAWN", Color.BLACK, true);
+        setPiece(1, 7, "PAWN", Color.BLACK, true);
+
+        setPiece(6, 0, "PAWN", Color.WHITE, true);
+        setPiece(6, 1, "PAWN", Color.WHITE, true);
+        setPiece(6, 2, "PAWN", Color.WHITE, true);
+        setPiece(6, 3, "PAWN", Color.WHITE, true);
+        setPiece(6, 4, "PAWN", Color.WHITE, true);
+        setPiece(6, 5, "PAWN", Color.WHITE, true);
+        setPiece(6, 6, "PAWN", Color.WHITE, true);
+        setPiece(6, 7, "PAWN", Color.WHITE, true);
     }
     public void setColors() {
         for (int row = 0; row < getRows(); row++) {

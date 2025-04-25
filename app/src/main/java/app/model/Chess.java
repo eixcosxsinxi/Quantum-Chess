@@ -58,6 +58,52 @@ public class Chess {
         return false;
     }
 
+    public void colorPawnCell(int row, int col, Color color) {
+        var piece = getBoard().getCell(row, col).getPiece();
+        var boardRows = getBoard().getRows();
+        var boardCols = getBoard().getCols();
+
+        if (color == Color.WHITE) {
+            if (row > 0 && getBoard().getCell(row - 1, col).getPiece().getColor() == Color.NONE) {
+                getBoard().getCell(row - 1, col).setColor(Color.BLUE);
+                if (row > 1 && piece.getFirstMove()) {
+                    var cell = getBoard().getCell(row - 2, col);
+                    if (cell.getPiece().getColor() == Color.NONE)
+                        cell.setColor(Color.BLUE);
+                }
+            }
+            if (row > 0 && col > 0) {
+                var upLeftColor = getBoard().getCell(row - 1, col - 1).getPiece().getColor();
+                if (upLeftColor != Color.NONE && upLeftColor != color)
+                    getBoard().getCell(row - 1, col - 1).setColor(Color.RED);
+            }
+            if (row > 0 && col < boardCols - 1) {
+                var upRightColor = getBoard().getCell(row - 1, col + 1).getPiece().getColor();
+                if (upRightColor != Color.NONE && upRightColor != color)
+                    getBoard().getCell(row - 1, col + 1).setColor(Color.RED);
+            }
+        } else {
+            if (row < boardRows - 1 && getBoard().getCell(row + 1, col).getPiece().getColor() == Color.NONE) {
+                getBoard().getCell(row + 1, col).setColor(Color.BLUE);
+                if (row < boardRows - 2 && piece.getFirstMove()) {
+                    var cell = getBoard().getCell(row + 2, col);
+                    if (cell.getPiece().getColor() == Color.NONE)
+                        cell.setColor(Color.BLUE);
+                }
+            }
+            if (row < boardRows - 1 && col > 0) {
+                var downLeftColor = getBoard().getCell(row + 1, col - 1).getPiece().getColor();
+                if (downLeftColor != Color.NONE && downLeftColor != color)
+                    getBoard().getCell(row + 1, col - 1).setColor(Color.RED);
+            }
+            if (row < boardRows - 1 && col < boardCols - 1) {
+                var downRightColor = getBoard().getCell(row + 1, col + 1).getPiece().getColor();
+                if (downRightColor != Color.NONE && downRightColor != color)
+                    getBoard().getCell(row + 1, col + 1).setColor(Color.RED);
+            }
+        }
+    }
+
     public void selectSquares(Cell currentCell) {
 
         var piece = currentCell.getPiece();
@@ -196,17 +242,7 @@ public class Chess {
                     colorCell(coordRow - 2, coordCol + 1, color);
             }
             case "PAWN" -> {
-                if (piece.getColor() == Color.WHITE) { // TODO: add collision logic
-                    if (coordRow < boardRows && coordRow > 0)
-                        boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
-                    if (piece.getFirstMove() && coordRow > 1)
-                        boardState.getCell(coordRow - 2, coordCol).setColor(Color.BLUE);
-                } else {
-                    if (coordRow < boardRows - 1)
-                        boardState.getCell(coordRow + 1, coordCol).setColor(Color.BLUE);
-                    if (piece.getFirstMove() && coordRow < boardRows - 2)
-                        boardState.getCell(coordRow + 2, coordCol).setColor(Color.BLUE);
-                }
+                colorPawnCell(coordRow, coordCol, color);
             }
             case "NONE" -> {}
             default -> {}

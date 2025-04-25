@@ -57,11 +57,7 @@ public class Chess {
         return false;
     }
 
-    public void selectSquares(Cell currentCell) { // TODO: write collision logic in all of these
-
-        /* TODO: write a boardState.matchesColor(row, col, color) does the logic of checking cell color within the method
-        * can also write a matchesColor(Cell, color)
-         */
+    public void selectSquares(Cell currentCell) {
 
         var piece = currentCell.getPiece();
         var type = piece.getType();
@@ -180,14 +176,14 @@ public class Chess {
                         break;
                 }
             }
-            case "KNIGHT" -> {
+            case "KNIGHT" -> { // TODO: add collision logic
                 if (coordRow > 0 && coordCol > 1) // up 1 left 2
                     boardState.getCell(coordRow - 1, coordCol - 2).setColor(Color.BLUE);
-                if (coordRow > 0 && coordCol < boardCols - 1) // up 1 right 2
+                if (coordRow > 0 && coordCol < boardCols - 2) // up 1 right 2
                     boardState.getCell(coordRow - 1, coordCol + 2).setColor(Color.BLUE);
                 if (coordRow < boardRows - 2 && coordCol > 1) // down 1 left 2
                     boardState.getCell(coordRow + 1, coordCol - 2).setColor(Color.BLUE);
-                if (coordRow < boardRows - 2 && coordCol < boardCols - 3) // down 1 right 2
+                if (coordRow < boardRows - 1 && coordCol < boardCols - 2) // down 1 right 2
                     boardState.getCell(coordRow + 1, coordCol + 2).setColor(Color.BLUE);
                 if (coordRow < boardRows - 2 && coordCol > 0) // down 2 left 1
                     boardState.getCell(coordRow + 2, coordCol - 1).setColor(Color.BLUE);
@@ -199,7 +195,7 @@ public class Chess {
                     boardState.getCell(coordRow - 2, coordCol + 1).setColor(Color.BLUE);
             }
             case "PAWN" -> {
-                if (piece.getColor() == Color.WHITE) { // move up the board
+                if (piece.getColor() == Color.WHITE) { // TODO: add collision logic
                     if (coordRow < boardRows && coordRow > 0)
                         boardState.getCell(coordRow - 1, coordCol).setColor(Color.BLUE);
                     if (piece.getFirstMove() && coordRow > 1)

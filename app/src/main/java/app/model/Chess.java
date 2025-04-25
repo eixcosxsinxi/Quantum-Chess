@@ -317,6 +317,24 @@ public class Chess {
                 deselectPieces(); // get rid of the blue highlights
                 doTurnAction(); // start the cycle again
             }
+        } else if (movetoCell.getColor() == Color.RED) {
+            board.getCell(currentCoord).getCellObserver().deselectPiece();
+            board.getCell(movetoCoord).removePiece();
+            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
+            board.getCell(currentCoord).removePiece();
+
+            // Look for a win, if no win, observe to update view.
+            setWinner(tryWin());
+
+            if (getWinner() == Player.BLACK)
+                observer.win(Player.BLACK);
+            else if (getWinner() == Player.WHITE)
+                observer.win(Player.WHITE);
+            else {
+                changeTurn();
+                deselectPieces(); // get rid of the blue highlights
+                doTurnAction(); // start the cycle again
+            }
         } else if (currentCoord.equals(movetoCoord)) {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
             deselectPieces();

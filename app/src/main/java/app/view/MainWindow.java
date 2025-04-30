@@ -5,6 +5,8 @@ import app.vals.*;
 import app.model.*;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.media.Media;
@@ -19,6 +21,9 @@ public class MainWindow implements Observer {
 
     Chess model;
 
+    @FXML HBox MainHBox;
+    @FXML HBox letters;
+    @FXML VBox numbers;
     @FXML GridPane chessBoard;
 
     // initialize the main window and close the title window
@@ -30,6 +35,9 @@ public class MainWindow implements Observer {
         // media plays here
         //playMedia();
 
+        // set numbers and letters
+        setNumbersandLetters();
+
         // Start Game
         model = Chess.getModelInstance();
         model.setObserver(this);
@@ -37,6 +45,17 @@ public class MainWindow implements Observer {
     }
 
     /* Helper Methods */
+    public void setNumbersandLetters() {
+        letters.getChildren().add(new ImageView(new Image("assets/letterA.png")));
+        letters.getChildren().add(new ImageView(new Image("assets/letterB.png")));
+        letters.getChildren().add(new ImageView(new Image("assets/letterC.png")));
+        letters.getChildren().add(new ImageView(new Image("assets/letterE.png")));
+        letters.getChildren().add(new ImageView(new Image("assets/letterF.png")));
+        letters.getChildren().add(new ImageView(new Image("assets/letterG.png")));
+        letters.getChildren().add(new ImageView(new Image("assets/letterH.png")));
+        letters.getChildren().add(new ImageView(new Image("assets/letterI.png")));
+    }
+
     public Board setChessBoard() {
         var board = model.getBoard(); // first get the model's board
 
@@ -53,9 +72,6 @@ public class MainWindow implements Observer {
                 cell.setCellObserver(button); // set the CellObserver for each cell
 
                 button.setUserData(coord);
-                button.setOnAction(e -> {
-                    model.tryTurn(coord); // every time a button is clicked, try to make a turn.
-                });
 
                 chessBoard.add(button, col, row); // add the button to the GridPane
             }
@@ -99,14 +115,24 @@ public class MainWindow implements Observer {
     public void play() {
         var board = setChessBoard();
         board.setColors();
-        //board.setAllPawns(); // for testing: will create all black pawns
-        //board.setPiece(new Coordinate(3, 2), "KNIGHT", Color.WHITE, true);
-        //board.setPiece(new Coordinate(6, 5), "PAWN", Color.BLACK, true);
-        //board.setPiece(new Coordinate(1, 5), "BISHOP", Color.BLACK, true);
-        //board.setPiece(new Coordinate(1, 1), "ROOK", Color.BLACK, true);
-        //board.setPiece(new Coordinate(7, 7), "KING", Color.BLACK, true);
-        //board.setPiece(new Coordinate(3, 3), "QUEEN", Color.BLACK, true);
         board.setDefaultBoard();
+    }
+
+    @Override
+    public void addSuperposition() {
+        var superpositionButton = new Button();
+        superpositionButton.setText("superposition");
+        superpositionButton.setId("superposition");
+        superpositionButton.setOnAction(e -> {
+            model.trySuperposition(); // when superposition button is clicked, set boolean variable to true
+        });
+        MainHBox.getChildren().add(superpositionButton);
+    }
+
+    @Override
+    public void removeSuperposition() {
+        if (MainHBox.getChildren().getLast().getId() != null)
+            MainHBox.getChildren().removeLast();
     }
 
     @Override

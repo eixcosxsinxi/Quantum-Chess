@@ -12,6 +12,7 @@ public class Chess {
     private Player turn = Player.WHITE;
     private Player winner = Player.NONE;
     private Observer observer;
+    private boolean superposition = false;
 
     public Chess() {
         // A chess is made up of a Board which contains the Pieces
@@ -27,6 +28,7 @@ public class Chess {
     /* Main Play method and various helper methods */
     public void play() {
         observer.play();
+        doTurnAction();
     }
 
     public boolean inCheck() {
@@ -252,6 +254,11 @@ public class Chess {
         board.setColors();
     }
 
+    public void trySuperposition() {
+        superposition = true;
+        observer.removeSuperposition();
+    }
+
     public void doTurnAction() {
         for (Cell[] cells : board.getGrid()) {
             for (Cell cell : cells) {
@@ -260,7 +267,7 @@ public class Chess {
                 var model = Chess.getModelInstance();
 
                 cellObserver.setOnAction(e -> {
-                    model.tryTurn(coord);
+                    model.tryTurn(coord); // set all buttons when clicked to try that turn
                 });
             }
         }
@@ -268,15 +275,17 @@ public class Chess {
 
     public void tryTurn(Coordinate coord) {
 
+        observer.addSuperposition(); // when a button is clicked, add the superposition button
+
         var currentCell = getBoard().getCell(coord);
         var currentCellObserver = currentCell.getCellObserver();
 
-        if (currentCell.getPiece().getColor().toString() == getTurn().toString()) {
-            currentCellObserver.selectPiece();
+        if (currentCell.getPiece().getColor().toString() == getTurn().toString()) { // if piece is same color as turn
+            currentCellObserver.selectPiece(); // outline the piece in blue
 
-            selectSquares(currentCell);
+            selectSquares(currentCell); // select the squares that this current piece can go to
 
-            doMoveAction(currentCell);
+            doSuperpositionAction(currentCell); // this will try the superposition action method
         }
     }
 
@@ -291,7 +300,49 @@ public class Chess {
         }
     }
 
+    public void doSuperpositionAction(Cell currentCell) { // set all onActions to look for another click to parse as a move
+        for (Cell[] cellArray : board.getGrid()) {
+            for (Cell cell : cellArray) {
+                cell.getCellObserver().setOnAction(e -> {
+                    var model = Chess.getModelInstance();
+                    model.parseSuperposition(currentCell, cell); // to parse the next click at its coord
+                });
+            }
+        }
+    }
+    public void parseSuperposition(Cell currentCell, Cell movetoCell) { // parse the move at the coordinate
+        if (superposition) { // if superposition truly has been enabled before the next board click
+            superposition = false; // set superposition back to default
+            observer.removeSuperposition();
+
+            var movetoCoord = movetoCell.getCoord();
+            var currentCoord = currentCell.getCoord();
+            var currentPiece = currentCell.getPiece();
+
+            if (movetoCell.getColor() == Color.BLUE) {
+                board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
+            } else if (movetoCell.getColor() == Color.RED) {
+                board.getCell(movetoCoord).removePiece();
+                board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
+            } else if (currentCoord.equals(movetoCoord)) {
+                board.getCell(currentCoord).getCellObserver().deselectPiece();
+                deselectPieces();
+                superposition = true;
+                doSuperpositionAction(currentCell);
+            }
+
+            deselectPieces();
+
+            tryTurn(currentCoord); // does the second move part of the superposition
+        } else {
+            parseMove(currentCell, movetoCell); // this will happen if superposition button has not been clicked before a board spot
+        }
+    }
+
     public void parseMove(Cell currentCell, Cell movetoCell) { // parse the move at the coordinate
+        superposition = false;
+        observer.removeSuperposition();
+
         var movetoCoord = movetoCell.getCoord();
         var currentCoord = currentCell.getCoord();
         var currentPiece = currentCell.getPiece();

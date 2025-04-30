@@ -3,9 +3,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <VBox fx:controller="app.view.MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" alignment="CENTER" spacing="10" prefHeight="500" prefWidth="500">
 
     <Label text="This is Quantum Chess" styleClass="largeFont" />
-    <GridPane fx:id="chessBoard" alignment="CENTER"/>
+
+    <HBox fx:id="MainHBox" alignment="CENTER" >
+        <VBox fx:id="numbers" > <!-- For the numbers on side of board -->
+            <!-- TODO: make numbers here -->
+        </VBox>
+        <VBox>
+            <GridPane fx:id="chessBoard" alignment="CENTER"/>
+            <HBox fx:id="letters" > <!-- For the letters on the bottom of the board -->
+                <!-- TODO: make letters here -->
+            </HBox>
+        </VBox>
+    </HBox>
 
 </VBox>

@@ -6,4 +6,6 @@ import app.vals.Player;
 public interface Observer {
     void play();
     void win(Player winner);
+    void addSuperposition();
+    void removeSuperposition();
 }

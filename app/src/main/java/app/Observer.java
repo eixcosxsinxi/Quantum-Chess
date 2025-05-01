@@ -1,11 +1,11 @@
 package app;
 
-import app.vals.Piece;
-import app.vals.Player;
+import app.vals. *;
+import app.model.*;
 
 public interface Observer {
     void play();
     void win(Player winner);
-    void addSuperposition();
+    void addSuperposition(Cell currentCell);
     void removeSuperposition();
 }

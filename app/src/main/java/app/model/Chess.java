@@ -254,7 +254,8 @@ public class Chess {
         board.setColors();
     }
 
-    public void trySuperposition() {
+    public void trySuperposition(Cell currentCell) { // if superposition button is clicked before another cell, do superposition
+        doSuperpositionAction(currentCell);
         superposition = true;
         observer.removeSuperposition();
     }
@@ -275,17 +276,20 @@ public class Chess {
 
     public void tryTurn(Coordinate coord) {
 
-        observer.addSuperposition(); // when a button is clicked, add the superposition button
-
         var currentCell = getBoard().getCell(coord);
         var currentCellObserver = currentCell.getCellObserver();
+
+        if (!superposition)
+            observer.addSuperposition(currentCell); // add the superposition button
+        else
+            superposition = false;
 
         if (currentCell.getPiece().getColor().toString() == getTurn().toString()) { // if piece is same color as turn
             currentCellObserver.selectPiece(); // outline the piece in blue
 
             selectSquares(currentCell); // select the squares that this current piece can go to
 
-            doSuperpositionAction(currentCell); // this will try the superposition action method
+            doMoveAction(currentCell); // this will try a regular move action
         }
     }
 
@@ -300,7 +304,7 @@ public class Chess {
         }
     }
 
-    public void doSuperpositionAction(Cell currentCell) { // set all onActions to look for another click to parse as a move
+    public void doSuperpositionAction(Cell currentCell) { // set all onActions to look for another click to parse as a superposition
         for (Cell[] cellArray : board.getGrid()) {
             for (Cell cell : cellArray) {
                 cell.getCellObserver().setOnAction(e -> {
@@ -310,33 +314,32 @@ public class Chess {
             }
         }
     }
+
     public void parseSuperposition(Cell currentCell, Cell movetoCell) { // parse the move at the coordinate
-        if (superposition) { // if superposition truly has been enabled before the next board click
-            superposition = false; // set superposition back to default
-            observer.removeSuperposition();
+        observer.removeSuperposition(); // set superposition back to default
 
-            var movetoCoord = movetoCell.getCoord();
-            var currentCoord = currentCell.getCoord();
-            var currentPiece = currentCell.getPiece();
+        var movetoCoord = movetoCell.getCoord();
+        var currentCoord = currentCell.getCoord();
+        var currentPiece = currentCell.getPiece();
 
-            if (movetoCell.getColor() == Color.BLUE) {
-                board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
-            } else if (movetoCell.getColor() == Color.RED) {
-                board.getCell(movetoCoord).removePiece();
-                board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
-            } else if (currentCoord.equals(movetoCoord)) {
-                board.getCell(currentCoord).getCellObserver().deselectPiece();
-                deselectPieces();
-                superposition = true;
-                doSuperpositionAction(currentCell);
-            }
-
+        // TODO: halve each probability by 1/2
+        if (movetoCell.getColor() == Color.BLUE) {
+            var probability = board.getCell(currentCoord).getPiece().getProbability();
+            probability /= 2;
+            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
+        } else if (movetoCell.getColor() == Color.RED) {
+            board.getCell(movetoCoord).removePiece();
+            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
+        } else if (currentCoord.equals(movetoCoord)) {
+            board.getCell(currentCoord).getCellObserver().deselectPiece();
             deselectPieces();
-
-            tryTurn(currentCoord); // does the second move part of the superposition
-        } else {
-            parseMove(currentCell, movetoCell); // this will happen if superposition button has not been clicked before a board spot
+            superposition = true;
+            doSuperpositionAction(currentCell);
         }
+
+        deselectPieces();
+
+        tryTurn(currentCoord); // does the second move part of the superposition
     }
 
     public void parseMove(Cell currentCell, Cell movetoCell) { // parse the move at the coordinate

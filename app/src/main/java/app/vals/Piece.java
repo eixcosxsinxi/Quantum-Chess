@@ -7,11 +7,15 @@ public class Piece {
     private Color color = Color.NONE;
     private String type = "NONE";
 
-    public Piece(String type, Color color, boolean firstMove) {
+    public Piece(String type, Color color, boolean firstMove, double probability) {
         setColor(color);
         setFirstMove(firstMove);
         setType(type);
-        setProbability(1.0);
+        setProbability(probability);
+    }
+
+    public Piece(String type, Color color, boolean firstMove) {
+        this(type, color, firstMove, 1.0);
     }
 
     public Piece(String type) {

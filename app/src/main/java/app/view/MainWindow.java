@@ -5,15 +5,15 @@ import app.vals.*;
 import app.model.*;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.*;
-import org.checkerframework.checker.units.qual.C;
 
 public class MainWindow implements Observer {
     Stage titleStage;
@@ -119,12 +119,12 @@ public class MainWindow implements Observer {
     }
 
     @Override
-    public void addSuperposition() {
+    public void addSuperposition(Cell currentCell) {
         var superpositionButton = new Button();
         superpositionButton.setText("superposition");
         superpositionButton.setId("superposition");
         superpositionButton.setOnAction(e -> {
-            model.trySuperposition(); // when superposition button is clicked, set boolean variable to true
+            model.trySuperposition(currentCell); // when superposition button is clicked, set boolean variable to true
         });
         MainHBox.getChildren().add(superpositionButton);
     }

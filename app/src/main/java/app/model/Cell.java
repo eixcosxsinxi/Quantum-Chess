@@ -45,6 +45,11 @@ public class Cell {
         if (getCellObserver() != null)
             getCellObserver().setPiece(type, color);
     }
+    public void setPiece(String type, Color color, boolean firstmove, double probability) {
+        piece = new Piece(type, color, firstmove, probability);
+        if (getCellObserver() != null)
+            getCellObserver().setPiece(type, color, probability);
+    }
     public void setColor(Color color) {
         this.color = color;
         getCellObserver().setColor(color);

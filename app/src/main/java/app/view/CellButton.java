@@ -69,6 +69,27 @@ public class CellButton extends Button implements CellObserver {
         }
     }
     @Override
+    public void setPiece(String type, Color color, double probability) {
+        // set the piece
+
+        // These five lines grab the name of the png file to grab
+        type.toLowerCase();
+        var firstLetter = type.substring(0,1);
+        var rest = type.substring(1);
+        var correctedPieceString = firstLetter.toUpperCase() + rest;
+
+        ImageView imageView;
+
+        if (color == Color.BLACK) {
+            imageView = new ImageView(new Image("/assets/" + correctedPieceString + "B.png"));
+            getStackPane().getChildren().add(1, imageView);
+        } else if (color == Color.WHITE) {
+            imageView = new ImageView(new Image("/assets/" + correctedPieceString + "W.png"));
+            getStackPane().getChildren().add(1, imageView);
+        }
+        // TODO: make the transparency according to the probability
+    }
+    @Override
     public void setColor(Color color) {
         // set the initial checkered colors
         var images = getStackPane().getChildren();

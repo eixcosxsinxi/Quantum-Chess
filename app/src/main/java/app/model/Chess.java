@@ -279,12 +279,12 @@ public class Chess {
         var currentCell = getBoard().getCell(coord);
         var currentCellObserver = currentCell.getCellObserver();
 
-        if (!superposition)
-            observer.addSuperposition(currentCell); // add the superposition button
-        else
-            superposition = false;
-
         if (currentCell.getPiece().getColor().toString() == getTurn().toString()) { // if piece is same color as turn
+            if (!superposition)
+                observer.addSuperposition(currentCell); // add the superposition button
+            else
+                superposition = false;
+
             currentCellObserver.selectPiece(); // outline the piece in blue
 
             selectSquares(currentCell); // select the squares that this current piece can go to
@@ -326,7 +326,7 @@ public class Chess {
         if (movetoCell.getColor() == Color.BLUE) {
             var probability = board.getCell(currentCoord).getPiece().getProbability();
             probability /= 2;
-            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
+            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false, probability);
         } else if (movetoCell.getColor() == Color.RED) {
             board.getCell(movetoCoord).removePiece();
             board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);

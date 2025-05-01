@@ -13,7 +13,7 @@ public class Chess {
     private Player winner = Player.NONE;
     private Observer observer;
     private boolean superposition = false;
-    private int ID = 0;
+    private int ID = 1;
 
     public Chess() {
         // A chess is made up of a Board which contains the Pieces
@@ -277,7 +277,7 @@ public class Chess {
         // /* // to show the probability of each peice, can change to any property of piece or cell
         for (Cell[] cells : getBoard().getGrid()) {
             for (Cell cell : cells) {
-                System.out.print(cell.getPiece().getProbability() + ", ");
+                System.out.print(cell.getPiece().getID() + ", ");
             }
             System.out.println("");
         }
@@ -330,7 +330,8 @@ public class Chess {
         var movetoCoord = movetoCell.getCoord();
         var currentCoord = currentCell.getCoord();
         var currentPiece = currentCell.getPiece();
-        //currentPiece.setID(ID);
+        if (currentPiece.getID() == 0) // ID of 0 means it has had no superposition move
+            currentPiece.setID(ID);
         // TODO: set next pieces ID
 
         if (movetoCell.getColor() == Color.BLUE) {
@@ -338,7 +339,8 @@ public class Chess {
             probability /= 2;
 
             board.getCell(currentCoord).getPiece().setProbability(probability);
-            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false, probability);
+            var ID = board.getCell(currentCoord).getPiece().getID();
+            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false, probability, ID);
         } else if (movetoCell.getColor() == Color.RED) {
             // TODO: figure out how to colapse superposition
             // probably will involve ID numbers
@@ -347,8 +349,9 @@ public class Chess {
         } else if (currentCoord.equals(movetoCoord)) {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
             deselectPieces();
-            superposition = true;
-            doSuperpositionAction(currentCell);
+            superposition = false;
+            board.getCell(currentCoord).getPiece().setID(0);
+            doTurnAction();
         }
 
         deselectPieces();
@@ -363,10 +366,11 @@ public class Chess {
         var currentCoord = currentCell.getCoord();
         var currentPiece = currentCell.getPiece();
         var probability = currentPiece.getProbability();
+        var ID = currentPiece.getID();
 
         if (movetoCell.getColor() == Color.BLUE) {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
-            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false, probability);
+            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false, probability, ID);
             board.getCell(currentCoord).removePiece();
 
             // Look for a win, if no win, observe to update view.

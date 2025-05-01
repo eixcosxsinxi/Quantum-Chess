@@ -6,12 +6,18 @@ public class Piece {
     private boolean firstMove = true; // for the pawns
     private Color color = Color.NONE;
     private String type = "NONE";
+    private int ID = 0;
 
-    public Piece(String type, Color color, boolean firstMove, double probability) {
+    public Piece(String type, Color color, boolean firstMove, double probability, int ID) {
+        setType(type);
         setColor(color);
         setFirstMove(firstMove);
-        setType(type);
         setProbability(probability);
+        setID(ID);
+    }
+
+    public Piece(String type, Color color, boolean firstMove, double probability) {
+        this(type, color, firstMove, probability, 0);
     }
 
     public Piece(String type, Color color, boolean firstMove) {
@@ -19,7 +25,7 @@ public class Piece {
     }
 
     public Piece(String type) {
-        this(type, Color.NONE, true, 1.0);
+        this(type, Color.NONE, true);
     }
 
     /* Getters */
@@ -35,6 +41,9 @@ public class Piece {
     public double getProbability() {
         return this.probability;
     }
+    public int getID() {
+        return this.ID;
+    }
 
     /* Setters */
     public void setFirstMove(boolean firstMove) {
@@ -48,6 +57,9 @@ public class Piece {
     }
     public void setProbability(double probability) {
         this.probability = probability;
+    }
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
 }

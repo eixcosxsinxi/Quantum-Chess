@@ -21,6 +21,7 @@ public class Cell {
         this.piece.setColor(Color.NONE);
         this.piece.setFirstMove(true);
         this.piece.setProbability(1.0);
+        this.piece.setID(0);
         getCellObserver().removePiece();
     }
 
@@ -47,8 +48,8 @@ public class Cell {
         if (getCellObserver() != null)
             getCellObserver().setPiece(type, color);
     }
-    public void setPiece(String type, Color color, boolean firstmove, double probability) {
-        piece = new Piece(type, color, firstmove, probability);
+    public void setPiece(String type, Color color, boolean firstmove, double probability, int ID) {
+        piece = new Piece(type, color, firstmove, probability, ID);
         if (getCellObserver() != null)
             getCellObserver().setPiece(type, color, probability);
     }

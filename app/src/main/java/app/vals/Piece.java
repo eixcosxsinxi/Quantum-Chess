@@ -19,7 +19,7 @@ public class Piece {
     }
 
     public Piece(String type) {
-        this(type, Color.NONE, true);
+        this(type, Color.NONE, true, 1.0);
     }
 
     /* Getters */

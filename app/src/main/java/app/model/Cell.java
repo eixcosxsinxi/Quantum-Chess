@@ -19,6 +19,8 @@ public class Cell {
     public void removePiece() {
         this.piece.setType("NONE");
         this.piece.setColor(Color.NONE);
+        this.piece.setFirstMove(true);
+        this.piece.setProbability(1.0);
         getCellObserver().removePiece();
     }
 

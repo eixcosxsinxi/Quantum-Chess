@@ -2,7 +2,9 @@ package app.model;
 
 import app.*;
 import app.vals.*;
-import org.checkerframework.checker.units.qual.C;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Chess {
 
@@ -251,6 +253,21 @@ public class Chess {
         }
     }
 
+    public Cell selectRandomPiece(ArrayList<Cell> cells) {
+        double randomValue = new Random().nextDouble();
+        double cumulativeProbability = 0.0;
+
+        for (Cell cell : cells) {
+            cumulativeProbability += cell.getPiece().getProbability();
+            if (randomValue < cumulativeProbability) {
+                return cell;
+            }
+        }
+
+        // Fallback in case of floating-point precision issues
+        return cells.getLast();
+    }
+
     public void deselectPieces() {
         board.setColors();
     }
@@ -274,7 +291,7 @@ public class Chess {
             }
         }
 
-        // /* // to show the probability of each peice, can change to any property of piece or cell
+       /*   // to show the probability of each peice, can change to any property of piece or cell
         for (Cell[] cells : getBoard().getGrid()) {
             for (Cell cell : cells) {
                 System.out.print(cell.getPiece().getID() + ", ");
@@ -286,7 +303,6 @@ public class Chess {
     }
 
     public void tryTurn(Coordinate coord) {
-
         var currentCell = getBoard().getCell(coord);
         var currentCellObserver = currentCell.getCellObserver();
 
@@ -331,8 +347,7 @@ public class Chess {
         var currentCoord = currentCell.getCoord();
         var currentPiece = currentCell.getPiece();
         if (currentPiece.getID() == 0) // ID of 0 means it has had no superposition move
-            currentPiece.setID(ID);
-        // TODO: set next pieces ID
+            currentPiece.setID(ID++);
 
         if (movetoCell.getColor() == Color.BLUE) {
             var probability = board.getCell(currentCoord).getPiece().getProbability();
@@ -344,13 +359,36 @@ public class Chess {
         } else if (movetoCell.getColor() == Color.RED) {
             // TODO: figure out how to colapse superposition
             // probably will involve ID numbers
-            board.getCell(movetoCoord).removePiece();
-            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
+            var cellArray = new ArrayList<Cell>(); // creates an array of pieces with same ID for randomizer
+
+            for (Cell[] cells : getBoard().getGrid()) {
+                for (Cell cell : cells) {
+                    if (cell.getPiece().getID() == ID)
+                        System.out.println(cell.getCoord().getRow() + "," + cell.getCoord().getCol());
+                        cellArray.add(cell);
+                }
+            }
+
+            var random = selectRandomPiece(cellArray);
+            var piece = random.getPiece();
+            System.out.println(random.getCoord().getRow() + "," + random.getCoord().getCol());
+
+            board.getCell(currentCoord).getCellObserver().deselectPiece();
+            if (random.getCoord().equals(movetoCoord))
+                board.getCell(movetoCoord).removePiece();
+            board.getCell(movetoCoord).setPiece(piece.getType(), piece.getColor(), false);
+
+            for (Cell cell : cellArray) {
+                if (!cell.getCoord().equals(random.getCoord())) {
+                    cell.removePiece();
+                    cell.getPiece().setID(0);
+                }
+            }
         } else if (currentCoord.equals(movetoCoord)) {
+        //} else {
             board.getCell(currentCoord).getCellObserver().deselectPiece();
             deselectPieces();
             superposition = false;
-            board.getCell(currentCoord).getPiece().setID(0);
             doTurnAction();
         }
 
@@ -386,10 +424,46 @@ public class Chess {
                 doTurnAction(); // start the cycle again
             }
         } else if (movetoCell.getColor() == Color.RED) {
-            board.getCell(currentCoord).getCellObserver().deselectPiece();
-            board.getCell(movetoCoord).removePiece();
-            board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
-            board.getCell(currentCoord).removePiece();
+            if (currentCell.getPiece().getID() == 0) { // checks if the piece you want to move is not part of a superposition
+                board.getCell(currentCoord).getCellObserver().deselectPiece();
+                board.getCell(movetoCoord).removePiece();
+                board.getCell(movetoCoord).setPiece(currentPiece.getType(), currentPiece.getColor(), false);
+                board.getCell(currentCoord).removePiece();
+            } else {
+                var cellArray = new ArrayList<Cell>(); // creates an array of pieces with same ID for randomizer
+
+                for (Cell[] cells : getBoard().getGrid()) {
+                    for (Cell cell : cells) {
+                        if (cell.getPiece().getID() == ID) // adds all cells that are also part of the same superposition group
+                            cellArray.add(cell);
+                    }
+                }
+
+                var random = selectRandomPiece(cellArray); // chooses a random cell from the group
+                var randCoord = random.getCoord();
+                System.out.println("randCoord = " + randCoord.getRow() + "," + randCoord.getCol());
+                System.out.println("movetoCoord = " + movetoCoord.getRow() + "," + movetoCoord.getCol() + "\n");
+                var piece = random.getPiece();
+                piece.setProbability(1.0); // set chosen piece back to normal with no superposition
+                piece.setID(0);
+
+                board.getCell(currentCoord).getCellObserver().deselectPiece();
+
+                for (Cell cell : cellArray) {
+                    System.out.println(cell.getCoord().getRow() + "," + cell.getCoord().getCol());
+                    /*
+                    if (!cell.getCoord().equals(random.getCoord())) { // removes any piece that is not the chosen piece
+                        cell.removePiece();
+                        cell.getPiece().setID(0);
+                        cell.getPiece().setProbability(1.0);
+                    }
+
+                     */
+                }
+                selectSquares(random); // select the squares around the chosen cell to try to move the piece there
+                parseMove(random, movetoCell); // go through all parseMove branches and move the piece accordingly
+                changeTurn();
+            }
 
             // Look for a win, if no win, observe to update view.
             setWinner(tryWin());

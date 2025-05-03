@@ -50,11 +50,11 @@ public class MainWindow implements Observer {
         letters.getChildren().add(new ImageView(new Image("assets/letterA.png")));
         letters.getChildren().add(new ImageView(new Image("assets/letterB.png")));
         letters.getChildren().add(new ImageView(new Image("assets/letterC.png")));
+        letters.getChildren().add(new ImageView(new Image("assets/letterD.png")));
         letters.getChildren().add(new ImageView(new Image("assets/letterE.png")));
         letters.getChildren().add(new ImageView(new Image("assets/letterF.png")));
         letters.getChildren().add(new ImageView(new Image("assets/letterG.png")));
         letters.getChildren().add(new ImageView(new Image("assets/letterH.png")));
-        letters.getChildren().add(new ImageView(new Image("assets/letterI.png")));
     }
 
     public Board setChessBoard() {

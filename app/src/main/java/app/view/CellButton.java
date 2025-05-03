@@ -70,6 +70,7 @@ public class CellButton extends Button implements CellObserver {
     }
     @Override
     public void setPiece(String type, Color color, double probability) {
+        double prob = 0.5 + 0.5*probability;
         // set the piece
 
         // These five lines grab the name of the png file to grab
@@ -82,9 +83,11 @@ public class CellButton extends Button implements CellObserver {
 
         if (color == Color.BLACK) {
             imageView = new ImageView(new Image("/assets/" + correctedPieceString + "B.png"));
+            imageView.setStyle("-fx-opacity: " + prob + ";");
             getStackPane().getChildren().add(1, imageView);
         } else if (color == Color.WHITE) {
             imageView = new ImageView(new Image("/assets/" + correctedPieceString + "W.png"));
+            imageView.setStyle("-fx-opacity: " + prob + ";");
             getStackPane().getChildren().add(1, imageView);
         }
         // TODO: make the transparency according to the probability

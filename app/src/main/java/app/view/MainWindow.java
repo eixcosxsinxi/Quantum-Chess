@@ -33,6 +33,7 @@ public class MainWindow implements Observer {
         this.gameStage = gameStage;
 
         // media plays here
+        // TODO: make media work
         //playMedia();
 
         // set numbers and letters

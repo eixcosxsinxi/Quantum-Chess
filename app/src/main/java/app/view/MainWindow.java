@@ -55,6 +55,15 @@ public class MainWindow implements Observer {
         letters.getChildren().add(new ImageView(new Image("assets/letterF.png")));
         letters.getChildren().add(new ImageView(new Image("assets/letterG.png")));
         letters.getChildren().add(new ImageView(new Image("assets/letterH.png")));
+
+        numbers.getChildren().add(new ImageView(new Image("assets/number8.png")));
+        numbers.getChildren().add(new ImageView(new Image("assets/number7.png")));
+        numbers.getChildren().add(new ImageView(new Image("assets/number6.png")));
+        numbers.getChildren().add(new ImageView(new Image("assets/number5.png")));
+        numbers.getChildren().add(new ImageView(new Image("assets/number4.png")));
+        numbers.getChildren().add(new ImageView(new Image("assets/number3.png")));
+        numbers.getChildren().add(new ImageView(new Image("assets/number2.png")));
+        numbers.getChildren().add(new ImageView(new Image("assets/number1.png")));
     }
 
     public Board setChessBoard() {
@@ -138,6 +147,7 @@ public class MainWindow implements Observer {
 
     @Override
     public void win(Player winner) {
+        model.deselectPieces();
         displayAlert(winner.toString() + " won!");
     }
 

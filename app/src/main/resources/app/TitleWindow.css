@@ -8,6 +8,7 @@
 	/* -fx-font-size: 12pt; default */
 }
 .helpScreen {
+    -fx-background-image: url("tileable_quantum_chess_background.png");
     -fx-background-color: #007FFF;
-    -fx-text-fill: #DAA520;
+    -fx-text-fill: #D9A850;
 }

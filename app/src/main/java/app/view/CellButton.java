@@ -90,7 +90,7 @@ public class CellButton extends Button implements CellObserver {
             imageView.setStyle("-fx-opacity: " + prob + ";");
             getStackPane().getChildren().add(1, imageView);
         }
-        // TODO: make the transparency according to the probability
+        // TODO: make the transparency work with winning
     }
     @Override
     public void setColor(Color color) {

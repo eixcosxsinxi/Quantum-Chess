@@ -59,7 +59,6 @@ public class TitleWindow {
 
     private void displayAlert(String text) {
         var alert = new Alert(Alert.AlertType.INFORMATION, text);
-        //alert.getDialogPane().getStyleClass().add("helpScreen");
         alert.show();
     }
 }

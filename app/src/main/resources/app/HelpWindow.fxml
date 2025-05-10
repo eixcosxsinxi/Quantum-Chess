@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox  xmlns:fx="http://javafx.com/fxml" stylesheets="@TitleWindow.css" alignment="CENTER" spacing="10" prefHeight="200" prefWidth="300">
-    <Label text="This is Quantum Chess" styleClass="helpScreen" />
+<VBox  xmlns:fx="http://javafx.com/fxml" stylesheets="@TitleWindow.css" styleClass="helpScreen" alignment="CENTER" spacing="10" prefHeight="200" prefWidth="300">
+    <Label text="This is Quantum Chess. To play, press start." styleClass="helpScreen" />
+    <Label text="You will be greeted with a chess board. To move, click on a piece. White always goes first." styleClass="helpScreen" />
 </VBox>

@@ -59,6 +59,9 @@ public class Board {
     public void setPiece(Coordinate coord, String type, Color color, boolean firstMove) {
         getCell(coord).setPiece(type, color, firstMove);
     }
+    public void setPiece(Coordinate coord, Piece piece) {
+        getCell(coord).setPiece(piece);
+    }
     public void setAllPawns() {
         for (int row = 0; row < getRows(); row++) {
             for (int col = 0; col < getCols(); col++) {

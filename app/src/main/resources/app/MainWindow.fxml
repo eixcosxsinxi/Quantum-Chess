@@ -5,18 +5,30 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+
 <VBox fx:controller="app.view.MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" alignment="CENTER" spacing="10" prefHeight="500" prefWidth="500">
 
-    <Label text="This is Quantum Chess" styleClass="largeFont" />
+    <HBox alignment="CENTER" >
+        <Label text="This is Quantum Chess" styleClass="largeFont" />
+        <Button maxHeight="20" minHeight="20" maxWidth="20" minWidth="20" >
+            <graphic>
+                <ImageView fitWidth="20" fitHeight="20" >
+                    <image>
+                        <Image url="@Info.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
 
     <HBox fx:id="MainHBox" alignment="CENTER" >
         <VBox fx:id="numbers" > <!-- For the numbers on side of board -->
-            <!-- TODO: make numbers here -->
+            <!-- numbers are programmatically placed in MainWindow.java -->
         </VBox>
         <VBox>
             <GridPane fx:id="chessBoard" alignment="CENTER"/>
             <HBox fx:id="letters" > <!-- For the letters on the bottom of the board -->
-                <!-- TODO: make letters here -->
+                <!-- letters are programmatically placed in MainWindow.java -->
             </HBox>
         </VBox>
     </HBox>

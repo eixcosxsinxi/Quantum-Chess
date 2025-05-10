@@ -53,6 +53,9 @@ public class Cell {
         if (getCellObserver() != null)
             getCellObserver().setPiece(type, color, probability);
     }
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
     public void setColor(Color color) {
         this.color = color;
         getCellObserver().setColor(color);
